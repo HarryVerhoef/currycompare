@@ -20,7 +20,7 @@ Amazon Cognito provides a robust solution for managing user authentication and a
 - `ADMIN`
 - `GLOBAL_ADMIN`
 
-It's important to note that the group `GUEST` is intentionally excluded from this list. This is because GUEST users are not authenticated users of the system.
+It's important to note that the group `GUEST` is intentionally excluded from this list. This is because `GUEST` users are not authenticated users of the system.
 
 ### Role Assignment
 For each user group, Amazon Cognito allows us to assign a corresponding IAM (Identity and Access Management) Role. This role-based approach ensures that users have appropriate access rights and permissions according to their group membership.
