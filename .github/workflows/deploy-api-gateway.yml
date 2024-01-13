@@ -1,0 +1,18 @@
+name: Deploy API Gateway (DEV)
+on: [push]
+permissions:
+  id-token: write # This is required for requesting the JWT
+jobs:
+  DeployDevAPIGateway:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone the repo
+        uses: actions/checkout@v4
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.DEV_ACTIONS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+      - name: Sts GetCallerIdentity
+        run: aws sts get-caller-identity
+        

@@ -24,4 +24,4 @@ Our CI pipeline will include several automated tests, and only the tests relevan
 
 Only once all relevant tests have passed can any deployment be made.
 
-The YAML files that control the CI + CD for this repo can be found in the `ci` directory in the project root.
+The YAML files that control the CI + CD for this repo can be found in the `.github/workflows` directory in the project root.
