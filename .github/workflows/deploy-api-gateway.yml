@@ -18,6 +18,6 @@ jobs:
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: DevApiGateway
-          template: file://currycompare/infra/templates/api-gateway.yml
-          parameter-overrides: file://currycompare/infra/parameters/api-gateway/dev.json
+          template: file:///currycompare/infra/templates/api-gateway.yml
+          parameter-overrides: file:///currycompare/infra/parameters/api-gateway/dev.json
         
