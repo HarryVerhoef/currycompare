@@ -19,7 +19,7 @@ jobs:
       - name: test again
         run: pwd && ls && cd infra
       - name: test once more
-        run: pwd && ls && cd templates
+        run: pwd && ls && cd infra/templates && ls
       - name: Deploy stack
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
