@@ -26,6 +26,6 @@ jobs:
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: DevApiGateway
-          template: file://infra/templates/api-gateway.yml
+          template: /infra/templates/api-gateway.yml
           parameter-overrides: file://infra/parameters/api-gateway/dev.json
         
