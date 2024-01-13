@@ -1,0 +1,20 @@
+---
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Stack encompassing all the resources used by Amazon API Gateway
+Parameters:
+  ApiName:
+    Type: String
+Resources:
+  Api:
+    Type: AWS::ApiGatewayV2::Api
+    Properties:
+      Name:
+        Ref: ApiName
+      ProtocolType: HTTP
+
+  # API Routes
+  GetCurryhouses:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref Api
+      RouteKey: GET /curryhouses

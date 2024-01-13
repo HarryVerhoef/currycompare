@@ -9,14 +9,15 @@ jobs:
     steps:
       - name: Clone the repo
         uses: actions/checkout@v4
-      - name: Test env vars
-        
-        run: echo ${{ vars.AWS_REGION }}
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
           aws-region: ${{ vars.AWS_REGION }}
-      - name: Sts GetCallerIdentity
-        run: aws sts get-caller-identity
+      - name: Deploy stack
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
+        with:
+          name: DevApiGateway
+          template: file:///${{ github.workspace }}/infra/templates/api-gateway.yml
+          parameter-overrides: file:///${{ github.workspace }}/infra/parameters/api-gateway/dev.json
         
