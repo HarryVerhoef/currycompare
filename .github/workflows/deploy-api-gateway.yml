@@ -14,12 +14,6 @@ jobs:
         with:
           role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
           aws-region: ${{ vars.AWS_REGION }}
-      - name: test workspace
-        run: ls
-      - name: test again
-        run: pwd && ls && cd infra
-      - name: test once more
-        run: pwd && ls && cd infra/templates && ls
       - name: test file read permissions
         run: cat ${{ github.workspace }}/infra/templates/api-gateway.yml
       - name: Deploy stack
