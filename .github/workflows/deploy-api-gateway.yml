@@ -19,7 +19,7 @@ jobs:
       - name: test again
         run: cd infra && ls
       - name: test once more
-        run: cd api-gateway && ls
+        run: cd templates && ls
       - name: Deploy stack
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
