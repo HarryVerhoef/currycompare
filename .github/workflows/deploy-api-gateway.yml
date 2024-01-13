@@ -17,9 +17,9 @@ jobs:
       - name: test workspace
         run: ls
       - name: test again
-        run: cd infra && ls
+        run: pwd && ls && cd infra
       - name: test once more
-        run: cd templates && ls && pwd
+        run: pwd && ls && cd templates
       - name: Deploy stack
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
