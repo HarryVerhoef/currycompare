@@ -18,3 +18,8 @@ Resources:
     Properties:
       ApiId: !Ref Api
       RouteKey: GET /curryhouses
+  PostReview:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref Api
+      RouteKey: POST /review
