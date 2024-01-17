@@ -23,3 +23,8 @@ Resources:
     Properties:
       ApiId: !Ref Api
       RouteKey: POST /review
+  PutReview:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref Api
+      RouteKey: PUT /review/{reviewId}
