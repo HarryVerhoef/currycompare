@@ -1,0 +1,18 @@
+[
+  {
+    "ParameterKey": "UserPoolName",
+    "ParameterValue": "DevUserPool"
+  },
+  {
+    "ParameterKey": "ConsumerGroupName",
+    "ParameterValue": "DevConsumers"
+  },
+  {
+    "ParameterKey": "AdminGroupName",
+    "ParameterValue": "DevAdmins"
+  },
+  {
+    "ParameterKey": "GlobalAdminGroupName",
+    "ParameterValue": "DevGlobalAdmins"
+  }
+]
