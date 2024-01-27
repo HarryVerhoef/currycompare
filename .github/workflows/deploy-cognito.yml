@@ -19,6 +19,6 @@ jobs:
       - name: Deploy stack
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
-          name: DevApiGateway
+          name: DevCognito
           template: ${{ github.workspace }}/infra/cognito/template.yml
           parameter-overrides: file://${{ github.workspace }}/infra/cognito/parameters/dev.json
