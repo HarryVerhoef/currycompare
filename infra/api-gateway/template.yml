@@ -6,6 +6,8 @@ Parameters:
     Type: String
   UserPoolId:
     Type: String
+  ApiDomainName:
+    Type: String
 Resources:
   Api:
     Type: AWS::ApiGatewayV2::Api
@@ -13,6 +15,11 @@ Resources:
       Name:
         Ref: ApiName
       ProtocolType: HTTP
+
+  DomainName:
+    Type: AWS::ApiGatewayV2::DomainName
+    Properties:
+      DomainName: !Ref ApiDomainName
 
   CognitoAuthorizer:
     Type: AWS::ApiGatewayV2::Authorizer

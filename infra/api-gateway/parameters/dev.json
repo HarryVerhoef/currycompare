@@ -6,5 +6,9 @@
   {
     "ParameterKey": "UserPoolId",
     "ParameterValue": "eu-west-2_PROVY7GSh"
+  },
+  {
+    "ParameterKey": "ApiDomainName",
+    "ParameterValue": "api.dev.currycompare.com"
   }
 ]
