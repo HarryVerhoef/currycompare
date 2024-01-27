@@ -4,6 +4,10 @@ Description: Stack encompassing all the resources used by Amazon API Gateway
 Parameters:
   ApiName:
     Type: String
+  UserPoolId:
+    Type: String
+  ApiDomainName:
+    Type: String
 Resources:
   Api:
     Type: AWS::ApiGatewayV2::Api
@@ -12,12 +16,22 @@ Resources:
         Ref: ApiName
       ProtocolType: HTTP
 
-  # API Routes
-  GetCurryhouses:
-    Type: AWS::ApiGatewayV2::Route
+  DomainName:
+    Type: AWS::ApiGatewayV2::DomainName
+    Properties:
+      DomainName: !Ref ApiDomainName
+
+  CognitoAuthorizer:
+    Type: AWS::ApiGatewayV2::Authorizer
     Properties:
       ApiId: !Ref Api
-      RouteKey: GET /curryhouses
+      AuthorizerType: JWT
+      IdentitySource: ['$request.header.Authorization']
+      JwtConfiguration:
+        Audience: !Ref UserPoolId
+        Issuer: !Sub 'https://cognito-idp.${AWS::Region}.amazonaws.com/${UserPoolId}'
+
+  # API Routes
   PostReview:
     Type: AWS::ApiGatewayV2::Route
     Properties:
@@ -28,3 +42,39 @@ Resources:
     Properties:
       ApiId: !Ref Api
       RouteKey: PUT /review/{reviewId}
+  DeleteReview:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref Api
+      RouteKey: DELETE /review/{reviewId}
+  GetUserReviews:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref Api
+      RouteKey: GET /user/{userId}/reviews
+  GetCurryhouses:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref Api
+      RouteKey: GET /curryhouses
+  PostCurryhouseApplication:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref Api
+      RouteKey: POST /curryhouse/application
+  PatchCurryhouseApplication:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref Api
+      RouteKey: PATCH /curryhouse/application/{applicationId}
+  GetCurryhouse:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref Api
+      RouteKey: GET /curryhouse/{curryHouseId}
+  PutCurryhouse:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref Api
+      RouteKey: PUT /curryhouse/{curryHouseId}
+  
