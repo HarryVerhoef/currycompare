@@ -7,6 +7,10 @@ Parameters:
     Type: String
   ConsumerGroupName:
     Type: String
+  AdminGroupName:
+    Type: String
+  GlobalAdminGroupName:
+    Type: String
 Resources:
   UserPool:
     Type: AWS::Cognito::UserPool
