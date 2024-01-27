@@ -1,0 +1,46 @@
+---
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/AWS_Cognito.html
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Stack encompassing all the resources used by Amazon Cognito
+Parameters:
+  UserPoolName:
+    Type: String
+  ConsumerGroupName:
+    Type: String
+  AdminGroupName:
+    Type: String
+  GlobalAdminGroupName:
+    Type: String
+Resources:
+  UserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName:
+        Ref: UserPoolName
+
+  ConsumerGroup:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      GroupName:
+        Ref: ConsumerGroupName
+      Description: Curry Consumers - users that do not own a curry house.
+      UserPoolId:
+        Fn::GetAtt: [UserPool, UserPoolId]
+
+  AdminGroup:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      GroupName:
+        Ref: AdminGroupName
+      Description: Curry Administrators - users that administer curry - curry house owners.
+      UserPoolId:
+        Fn::GetAtt: [UserPool, UserPoolId]
+
+  GlobalAdminGroup:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      GroupName:
+        Ref: GlobalAdminGroupName
+      Description: Global Curry Administrators - Users that keep Curry Consumers and Curry Administrators in check.
+      UserPoolId:
+        Fn::GetAtt: [UserPool, UserPoolId]
