@@ -4,6 +4,8 @@ Description: Stack encompassing all the resources used by Amazon API Gateway
 Parameters:
   ApiName:
     Type: String
+  UserPoolId:
+    Type: String
 Resources:
   Api:
     Type: AWS::ApiGatewayV2::Api
@@ -11,6 +13,16 @@ Resources:
       Name:
         Ref: ApiName
       ProtocolType: HTTP
+
+  CognitoAuthorizer:
+    Type: AWS::ApiGatewayV2::Authorizer
+    Properties:
+      ApiId: !Ref Api
+      AuthorizerType: JWT
+      IdentitySource: ['$request.header.Authorization']
+      JwtConfiguration:
+        Audience: !Ref UserPoolId
+        Issuer: !Sub 'https://cognito-idp.${AWS::Region}.amazonaws.com/${UserPoolId}'
 
   # API Routes
   GetCurryhouses:

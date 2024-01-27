@@ -2,5 +2,9 @@
   {
     "ParameterKey": "ApiName",
     "ParameterValue": "DevApi"
+  },
+  {
+    "ParameterKey": "UserPoolId",
+    "ParameterValue": "eu-west-2_PROVY7GSh"
   }
 ]
