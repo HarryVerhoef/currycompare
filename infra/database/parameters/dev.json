@@ -1,0 +1,6 @@
+[
+  {
+    "ParameterKey": "InstanceClass",
+    "ParameterValue": "db.t2.micro"
+  }
+]
