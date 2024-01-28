@@ -1,0 +1,25 @@
+name: Deploy Database (DEV)
+on:
+  push:
+    branches: [main]
+    paths: 'infra/database/**'
+permissions:
+  id-token: write # This is required for requesting the JWT
+jobs:
+  DeployDevCognito:
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - name: Clone the repo
+        uses: actions/checkout@v4
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+      - name: Deploy stack
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
+        with:
+          name: DevDatabase
+          template: ${{ github.workspace }}/infra/database/template.yml
+          parameter-overrides: file://${{ github.workspace }}/infra/database/parameters/dev.json
