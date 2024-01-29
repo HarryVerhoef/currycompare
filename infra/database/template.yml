@@ -20,5 +20,3 @@ Resources:
       ManageMasterUserPassword: true
       AllocatedStorage: !Ref AllocatedStorage
       
-
-  
