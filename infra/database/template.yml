@@ -6,6 +6,8 @@ Parameters:
     Type: String
   MasterUsername:
     Type: String
+  AllocatedStorage:
+    Type: String
   
 Resources:
   DatabaseInstance:
@@ -16,6 +18,5 @@ Resources:
       DBInstanceClass: !Ref InstanceClass
       MasterUsername: !Ref MasterUsername
       ManageMasterUserPassword: true
+      AllocatedStorage: !Ref AllocatedStorage
       
-
-  
