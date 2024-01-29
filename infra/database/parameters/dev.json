@@ -1,7 +1,7 @@
 [
   {
     "ParameterKey": "InstanceClass",
-    "ParameterValue": "db.t2.micro"
+    "ParameterValue": "db.t4g.micro"
   },
   {
     "ParameterKey": "MasterUsername",
