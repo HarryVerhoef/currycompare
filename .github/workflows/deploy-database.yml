@@ -1,7 +1,6 @@
 name: Deploy Database (DEV)
 on:
   push:
-    branches: [main]
     paths: 'infra/database/**'
 permissions:
   id-token: write # This is required for requesting the JWT
