@@ -4,14 +4,18 @@ Description: Stack encompassing all the resources used by Amazon Aurora
 Parameters:
   InstanceClass:
     Type: String
+  MasterUsername:
+    Type: String
   
 Resources:
-  AuroraCluster:
+  DatabaseInstance:
     Type: AWS::RDS::DBInstance
     Properties:
       DeletionProtection: true
       Engine: postgres
       DBInstanceClass: !Ref InstanceClass
+      MastUsername: !Ref MasterUsername
+      ManageMasterUserPassword: true
       
 
   
