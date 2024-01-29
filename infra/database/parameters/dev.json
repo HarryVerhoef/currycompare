@@ -6,5 +6,9 @@
   {
     "ParameterKey": "MasterUsername",
     "ParameterValue": "currycompare_master_db_user_dev"
+  },
+  {
+    "ParameterKey": "AllocatedStorage",
+    "ParameterValue": "5"
   }
 ]
