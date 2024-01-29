@@ -2,5 +2,9 @@
   {
     "ParameterKey": "InstanceClass",
     "ParameterValue": "db.t2.micro"
+  },
+  {
+    "ParameterKey": "MasterUsername",
+    "ParameterValue": "currycompare_master_db_user_dev"
   }
 ]
