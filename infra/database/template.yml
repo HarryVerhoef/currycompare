@@ -14,7 +14,7 @@ Resources:
       DeletionProtection: true
       Engine: postgres
       DBInstanceClass: !Ref InstanceClass
-      MastUsername: !Ref MasterUsername
+      MasterUsername: !Ref MasterUsername
       ManageMasterUserPassword: true
       
 
