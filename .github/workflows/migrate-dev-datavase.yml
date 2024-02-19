@@ -15,7 +15,9 @@ jobs:
           role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
           aws-region: ${{ vars.AWS_REGION }}
       - name: Install Dependencies
-        run: npm install
+        run: |
+          cd src
+          npm install
       - name: Migrate Database
         run: npx prisma migrate deploy
         env:
