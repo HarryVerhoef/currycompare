@@ -1,0 +1,24 @@
+name: Migrate Database (DEV)
+on:
+  push:
+    paths: 'src/prisma/migrations/**'
+permissions:
+  id-token: write # This is required for requesting the JWT
+jobs:
+  DeployDevCognito:
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - name: Clone the repo
+        uses: actions/checkout@v4
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+      - name: Install Dependencies
+        run: npm install
+      - name: Migrate Database
+        run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
