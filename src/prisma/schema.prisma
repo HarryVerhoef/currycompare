@@ -1,0 +1,41 @@
+datasource db {
+  provider = "postgresql"
+  url = env("DATABASE_URL")
+  extensions = [postgis]
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output = "./generated"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+model User {
+  id         String @id @default(uuid())
+  email      String @unique
+  firstName  String
+  lastName   String
+  reviews    Review[]
+}
+
+model Review {
+  id           String @id @default(uuid())
+  user         User @relation(fields: [userId], references: [id])
+  userId       String
+  curryhouse   Curryhouse @relation(fields: [curryhouseId], references: [id])
+  curryhouseId String
+  rating       Int
+  comment      String
+  size         String
+  taste        Int
+  value        Int
+}
+
+model Curryhouse {
+  id          String @id @default(uuid())
+  title       String
+  phoneNumber String
+  email       String
+  location    Unsupported("geography(Point, 4326)")
+  reviews     Review[]
+}

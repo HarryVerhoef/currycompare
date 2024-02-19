@@ -20,6 +20,8 @@ When any changes to the data model are made in `main`, we can use [prisma migrat
 
 ## Data model
 
+One thing worth noting is that in this diagram, relation tables (such as `curry_house_review`), are explicitly shown. These tables are handy for when there is a many-to-many relationship. Prisma handles these tables implicitly, so in our prisma data model there is not need to specify `curry_house_review` table (but the equivalent table will exist).
+
 ```mermaid
 erDiagram
 user {

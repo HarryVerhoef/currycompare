@@ -1,0 +1,9 @@
+services:
+  database:
+    image: postgis/postgis:16-master
+    ports:
+      - '5432:5432'
+    volumes:
+      - /var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
