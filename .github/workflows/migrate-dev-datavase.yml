@@ -14,10 +14,22 @@ jobs:
         with:
           role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
           aws-region: ${{ vars.AWS_REGION }}
+      - name: Get database password from AWS
+        uses: aws-actions/aws-secretsmanager-get-secrets@v1
+        with:
+          secret-ids: |
+            DB_MASTER_PASSWORD, ${{ secrets.DB_PASSWORD_SECRET_ID }}
       - name: Install Dependencies
         run: |
           cd src
           npm install
+      - name: Build DB URL
+        run: |
+          cd src
+          npx ts-node utils/buildDatabaseURL/setDatabaseUrlEnvVar.ts
+        env:
+          DB_MASTER_USERNAME: ${{ secrets.DB_MASTER_USERNAME }}
+          DB_ENDPOINT: ${{ secrets.DB_ENDPOINT }}
       - name: Migrate Database
         run: |
           cd src/prisma
