@@ -11,9 +11,39 @@ export const buildDatabaseURL = (): string => {
     throw Error("Environment variable 'DB_ENDPOINT' not set");
   }
 
-  const encodedUsername = encodeURIComponent(process.env.DB_MASTER_USERNAME);
-  const encodedPassword = encodeURIComponent(process.env.DB_MASTER_PASSWORD);
+  const encodedUsername = percentEncode("currycompare_master_db_user_dev");
+  const encodedPassword = percentEncode(".n%r-t[*4JNt~w!Z6E5OfP7wpjvM");
   // const encodedEndpoint = encodeURIComponent(process.env.DB_ENDPOINT);
 
   return `postgresql://${encodedUsername}:${encodedPassword}@${process.env.DB_ENDPOINT}:5432/currycompare`;
+};
+
+const percentEncode = (str: string): string => {
+  const replacements: Record<string, string> = {
+    ":": "%3A",
+    "/": "%2F",
+    "?": "%3F",
+    "#": "%23",
+    "[": "%5B",
+    "]": "%5D",
+    "@": "%40",
+    "!": "%21",
+    $: "%24",
+    "&": "%26",
+    "'": "%27",
+    "(": "%28",
+    ")": "%29",
+    "*": "%2A",
+    "+": "%2B",
+    ",": "%2C",
+    ";": "%3B",
+    "=": "%3D",
+    "%": "%25",
+    " ": "+", // or '%20' if you prefer spaces to be encoded as '%20'
+  };
+
+  return str
+    .split("")
+    .map((char) => replacements[char] ?? char)
+    .join("");
 };
