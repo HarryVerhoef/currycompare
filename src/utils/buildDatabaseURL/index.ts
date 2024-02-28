@@ -15,5 +15,5 @@ export const buildDatabaseURL = (): string => {
   const encodedPassword = encodeURIComponent(process.env.DB_MASTER_PASSWORD);
   const encodedEndpoint = encodeURIComponent(process.env.DB_ENDPOINT);
 
-  return `postgresql://${encodedUsername}:${encodedPassword}@${encodedEndpoint}/currycompare`;
+  return `postgresql://${encodedUsername}:${encodedPassword}@${encodedEndpoint}:5432/currycompare`;
 };
