@@ -34,7 +34,7 @@ jobs:
       - name: Build and set DB URL
         run: |
           cd src
-          DATABASE_URL=$(npx ts-node utils/buildDatabaseURL/index.ts)
+          DATABASE_URL=$(npx ts-node utils/buildDatabaseURL/setDatabaseUrlEnvVar.ts)
           echo "DATABASE_URL=$DATABASE_URL" >> $GITHUB_ENV
         env:
           DB_MASTER_USERNAME: ${{ secrets.DB_MASTER_USERNAME }}
