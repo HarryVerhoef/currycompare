@@ -27,6 +27,9 @@ jobs:
         run: |
           cd src
           npx ts-node utils/buildDatabaseURL/addDatabaseUrlMask.ts
+        env:
+          DB_MASTER_USERNAME: ${{ secrets.DB_MASTER_USERNAME }}
+          DB_ENDPOINT: ${{ secrets.DB_ENDPOINT }}
       - name: Build and set DB URL
         run: |
           cd src
