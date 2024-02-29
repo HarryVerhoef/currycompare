@@ -19,11 +19,7 @@ export const buildDatabaseURL = (): string => {
 
   const dbUrl = `postgresql://${encodedUsername}:${encodedPassword}@${process.env.DB_ENDPOINT}:5432/currycompare`;
 
-  console.log("testing");
-
-  console.log(process.env.DATABASE_URL);
-
-  // console.log(dbUrl);
+  console.log(dbUrl);
 
   return dbUrl;
 };
