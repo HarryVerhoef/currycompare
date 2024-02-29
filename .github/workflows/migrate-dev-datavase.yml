@@ -23,12 +23,15 @@ jobs:
         run: |
           cd src
           npm install
+      - name: Set DATABASE_URL mask
+        run: |
+          cd src
+          npx ts-node utils/buildDatabaseURL/addDatabaseUrlMask.ts
       - name: Build and set DB URL
         run: |
           cd src
           DATABASE_URL=$(npx ts-node utils/buildDatabaseURL/index.ts)
           echo "DATABASE_URL=$DATABASE_URL" >> $GITHUB_ENV
-          echo "::add-mask::$DATABASE_URL"
         env:
           DB_MASTER_USERNAME: ${{ secrets.DB_MASTER_USERNAME }}
           DB_ENDPOINT: ${{ secrets.DB_ENDPOINT }}

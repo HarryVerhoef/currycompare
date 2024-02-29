@@ -1,7 +1,8 @@
 import { buildDatabaseURL } from ".";
 
 try {
-  process.env.DATABASE_URL = buildDatabaseURL();
+  const dbUrl = buildDatabaseURL();
+  console.log(dbUrl);
 } catch {
   console.error("Something went wrong building the database URL");
 }

@@ -17,11 +17,7 @@ export const buildDatabaseURL = (): string => {
   const encodedPassword = encodeURIComponent(process.env.DB_MASTER_PASSWORD);
   // const encodedEndpoint = encodeURIComponent(process.env.DB_ENDPOINT);
 
-  const dbUrl = `postgresql://${encodedUsername}:${encodedPassword}@${process.env.DB_ENDPOINT}:5432/currycompare`;
-
-  console.log(dbUrl);
-
-  return dbUrl;
+  return `postgresql://${encodedUsername}:${encodedPassword}@${process.env.DB_ENDPOINT}:5432/currycompare`;
 };
 
 const percentEncode = (str: string): string => {
