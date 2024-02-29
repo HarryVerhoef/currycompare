@@ -26,12 +26,12 @@ jobs:
       - name: Build and set DB URL
         run: |
           cd src
+          echo "::add-mask::$DATABASE_URL"
           echo "DATABASE_URL=$(npx ts-node utils/buildDatabaseURL/setDatabaseUrlEnvVar.ts)" >> $GITHUB_ENV
+          echo "::add-mask::$DATABASE_URL"
         env:
           DB_MASTER_USERNAME: ${{ secrets.DB_MASTER_USERNAME }}
           DB_ENDPOINT: ${{ secrets.DB_ENDPOINT }}
-      - name: Add mask to DATABASE_URL
-        run: echo "::add-mask::$DATABASE_URL"
       - name: Migrate Database
         run: |
           cd src/prisma

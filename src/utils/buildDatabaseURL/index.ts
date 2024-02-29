@@ -13,8 +13,8 @@ export const buildDatabaseURL = (): string => {
     throw Error("Environment variable 'DB_ENDPOINT' not set");
   }
 
-  const encodedUsername = percentEncode(process.env.DB_MASTER_USERNAME);
-  const encodedPassword = percentEncode(process.env.DB_MASTER_PASSWORD);
+  const encodedUsername = encodeURIComponent(process.env.DB_MASTER_USERNAME);
+  const encodedPassword = encodeURIComponent(process.env.DB_MASTER_PASSWORD);
   // const encodedEndpoint = encodeURIComponent(process.env.DB_ENDPOINT);
 
   const dbUrl = `postgresql://${encodedUsername}:${encodedPassword}@${process.env.DB_ENDPOINT}:5432/currycompare`;
