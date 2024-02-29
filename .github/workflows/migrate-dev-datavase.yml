@@ -30,8 +30,6 @@ jobs:
         env:
           DB_MASTER_USERNAME: ${{ secrets.DB_MASTER_USERNAME }}
           DB_ENDPOINT: ${{ secrets.DB_ENDPOINT }}
-      - name: Add mask to DATABASE_URL
-        run: echo "::add-mask::$DATABASE_URL"
       - name: Migrate Database
         run: |
           cd src/prisma
