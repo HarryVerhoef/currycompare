@@ -1,3 +1,5 @@
+#!/usr/bin/env ts-node
+
 export const buildDatabaseURL = (): string => {
   if (process.env.DB_MASTER_USERNAME === undefined) {
     throw Error("Environment variable 'DB_MASTER_USERNAME' not set");
@@ -16,6 +18,8 @@ export const buildDatabaseURL = (): string => {
   // const encodedEndpoint = encodeURIComponent(process.env.DB_ENDPOINT);
 
   const dbUrl = `postgresql://${encodedUsername}:${encodedPassword}@${process.env.DB_ENDPOINT}:5432/currycompare`;
+
+  console.log("testing");
 
   console.log(process.env.DATABASE_URL);
 
