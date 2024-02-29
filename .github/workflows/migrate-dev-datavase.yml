@@ -26,6 +26,7 @@ jobs:
       - name: Set DATABASE_URL mask
         run: |
           cd src
+          echo "Testing"
           echo $(npx ts-node utils/buildDatabaseURL/addDatabaseUrlMask.ts)
         env:
           DB_MASTER_USERNAME: ${{ secrets.DB_MASTER_USERNAME }}
