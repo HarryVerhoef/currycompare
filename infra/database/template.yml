@@ -1,6 +1,6 @@
 ---
 AWSTemplateFormatVersion: "2010-09-09"
-Description: Stack encompassing all the resources used by Amazon Aurora
+Description: Stack encompassing all the resources used by Amazon RDS
 Parameters:
   InstanceClass:
     Type: String
