@@ -14,9 +14,11 @@ The prisma schema consists of [data sources](https://www.prisma.io/docs/orm/pris
 - **generators:** For now we will just be using the default `prisma-client-js` generator, and writing generated assets to `src/prisma/generated`.
 - **data model definition:** Here we can maintain the below data model in code and more clearly specify all relations and types.
 
-### CI
+### Migration
 
-When any changes to the data model are made in `main`, we can use [prisma migrate](https://www.prisma.io/docs/orm/prisma-migrate/understanding-prisma-migrate) to migrate the dev database automatically, and then if that succeeds we can apply the migration to the production database, given manual approval.
+To migrate the local database, use `npm run db:migrate:local`, ensuring a `DATBASE_URL` environment variable has been set in an in-scope `.env` file, pointing to the local database. For cloud database migrations, change the `DATABASE_URL` envitonment variable so that it is pointing to the relevant cloud-based database instance, and run `npm run db:migrate:deploy`. Unfortunately, having tried to automate this process with a CI pipeline, there is simply too much complexity revolving around the connection between the GitHub Actions worker and the VPC.
+
+The `DATABASE_URL` variable needs to have certain characters escaped. Taking the necessary variables directly from the AWS Console and setting them in an in-scope `.env` file, use `npm run log:db:url` to have the escaped database URL logged to stdout, where it can then be used for `DATABASE_URL`.
 
 ## Data model
 

@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/jest",
-    "migrate:local": "npx prisma migrate dev"
+    "db:migrate:local": "npx prisma migrate dev",
+    "db:migrate:deploy": "npx prisma migrate deploy",
+    "log:db:url": "npx ts-node -r dotenv/config ./utils/buildDatabaseURL/index.ts"
   },
   "author": "Harry Verhoef",
   "license": "ISC",
@@ -17,6 +19,7 @@
     "@types/node": "^20.11.20",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "babel-jest": "^29.7.0",
+    "dotenv": "^16.4.5",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard-with-typescript": "^43.0.1",
