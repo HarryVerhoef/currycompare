@@ -11,6 +11,8 @@ Parameters:
     Type: String
   GlobalAdminGroupName:
     Type: String
+  UserClientName:
+    Type: String
 Resources:
   UserPool:
     Type: AWS::Cognito::UserPool
@@ -42,5 +44,17 @@ Resources:
       GroupName:
         Ref: GlobalAdminGroupName
       Description: Global Curry Administrators - Users that keep Curry Consumers and Curry Administrators in check.
+      UserPoolId:
+        Fn::GetAtt: [UserPool, UserPoolId]
+  
+  # https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-app-integration.html
+  UserClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      ClientName:
+        Ref: UserClientName
+      EnableTokenRevocation: true
+      GenerateSecret: true
+      PreventUserExistenceErrors: ENABLED
       UserPoolId:
         Fn::GetAtt: [UserPool, UserPoolId]

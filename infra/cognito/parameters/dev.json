@@ -14,5 +14,9 @@
   {
     "ParameterKey": "GlobalAdminGroupName",
     "ParameterValue": "DevGlobalAdmins"
+  },
+  {
+    "ParameterKey": "UserClientName",
+    "ParameterValue": "DevUserClient"
   }
 ]
