@@ -60,7 +60,8 @@ Resources:
       EnableTokenRevocation: true
       GenerateSecret: true
       PreventUserExistenceErrors: ENABLED
-      CallbackURLs: CallbackURL
+      CallbackURLs: 
+        - Ref: CallbackURL
       UserPoolId:
         Fn::GetAtt: [UserPool, UserPoolId]
 
