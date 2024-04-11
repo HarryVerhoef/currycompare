@@ -18,5 +18,13 @@
   {
     "ParameterKey": "UserClientName",
     "ParameterValue": "DevUserClient"
+  },
+  {
+    "ParameterKey": "DomainName",
+    "ParameterValue": "dev.currycompare.com"
+  },
+  {
+    "ParameterKey": "CallbackURL",
+    "ParameterValue": "https://dev.currycompare.com/auth/callback"
   }
 ]

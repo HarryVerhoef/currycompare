@@ -13,6 +13,10 @@ Parameters:
     Type: String
   UserClientName:
     Type: String
+  CallbackURL:
+    Type: String
+  DomainName:
+    Type: String
 Resources:
   UserPool:
     Type: AWS::Cognito::UserPool
@@ -56,5 +60,14 @@ Resources:
       EnableTokenRevocation: true
       GenerateSecret: true
       PreventUserExistenceErrors: ENABLED
+      CallbackURLs: CallbackURL
+      UserPoolId:
+        Fn::GetAtt: [UserPool, UserPoolId]
+
+  UserPoolDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      Domain:
+        Ref: DomainName
       UserPoolId:
         Fn::GetAtt: [UserPool, UserPoolId]
