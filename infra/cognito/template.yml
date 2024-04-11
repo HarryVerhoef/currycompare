@@ -61,7 +61,7 @@ Resources:
       GenerateSecret: true
       PreventUserExistenceErrors: ENABLED
       CallbackURLs: 
-        - Ref: CallbackURL
+        - !Ref CallbackURL
       UserPoolId:
         Fn::GetAtt: [UserPool, UserPoolId]
 
