@@ -1,7 +1,6 @@
 name: Deploy Cognito (DEV)
 on:
   push:
-    branches: [main]
     paths: 'infra/cognito/**'
 permissions:
   id-token: write # This is required for requesting the JWT
