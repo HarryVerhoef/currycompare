@@ -21,11 +21,11 @@
   },
   {
     "ParameterKey": "DomainName",
-    "ParameterValue": "dev.currycompare.com"
+    "ParameterValue": "auth.dev.currycompare.com"
   },
   {
     "ParameterKey": "CallbackURL",
-    "ParameterValue": "https://dev.currycompare.com/auth/callback"
+    "ParameterValue": "https://auth.currycompare.com/callback"
   },
   {
     "ParameterKey": "UserPoolCertificateARN",
