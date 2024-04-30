@@ -21,14 +21,18 @@
   },
   {
     "ParameterKey": "DomainName",
-    "ParameterValue": "dev.currycompare.com"
+    "ParameterValue": "auth.dev.currycompare.com"
   },
   {
     "ParameterKey": "CallbackURL",
-    "ParameterValue": "https://dev.currycompare.com/auth/callback"
+    "ParameterValue": "https://auth.dev.currycompare.com/callback"
   },
   {
     "ParameterKey": "UserPoolCertificateARN",
     "ParameterValue": "arn:aws:acm:us-east-1:637423366782:certificate/c4b7a25e-d665-4ae3-866e-08db29235afe"
+  },
+  {
+    "ParameterKey": "LogoutURL",
+    "ParameterValue": "https://dev.currycompare.com"
   }
 ]

@@ -19,6 +19,8 @@ Parameters:
     Type: String
   UserPoolCertificateARN:
     Type: String
+  LogoutURL:
+    Type: String
 Resources:
   UserPool:
     Type: AWS::Cognito::UserPool
@@ -59,11 +61,22 @@ Resources:
     Properties:
       ClientName:
         Ref: UserClientName
+      AllowedOAuthFlowsUserPoolClient: true
       EnableTokenRevocation: true
       GenerateSecret: true
       PreventUserExistenceErrors: ENABLED
+      AllowedOAuthFlows:
+        - code
+      AllowedOAuthScopes:
+        - email
+        - profile
+        - openid
       CallbackURLs: 
         - !Ref CallbackURL
+      LogoutURLs:
+        - !Ref LogoutURL
+      SupportedIdentityProviders:
+        - COGNITO
       UserPoolId:
         Fn::GetAtt: [UserPool, UserPoolId]
 
