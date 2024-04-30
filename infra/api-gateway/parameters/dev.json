@@ -10,5 +10,9 @@
   {
     "ParameterKey": "ApiDomainName",
     "ParameterValue": "api.dev.currycompare.com"
+  },
+  {
+    "ParameterKey": "CertificateARN",
+    "ParameterValue": "arn:aws:acm:us-east-1:637423366782:certificate/c4b7a25e-d665-4ae3-866e-08db29235afe"
   }
 ]
