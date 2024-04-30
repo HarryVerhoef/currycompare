@@ -71,6 +71,8 @@ Resources:
         - openid
       CallbackURLs: 
         - !Ref CallbackURL
+      LogoutURLs:
+        - !Ref LogoutURL
       UserPoolId:
         Fn::GetAtt: [UserPool, UserPoolId]
 
