@@ -32,7 +32,8 @@ Resources:
       AuthorizerType: JWT
       IdentitySource: ['$request.header.Authorization']
       JwtConfiguration:
-        Audience: !Ref UserPoolId
+        Audience:
+          - !Ref UserPoolId
         Issuer: !Sub 'https://cognito-idp.${AWS::Region}.amazonaws.com/${UserPoolId}'
 
   # API Routes
