@@ -59,9 +59,15 @@ Resources:
     Properties:
       ClientName:
         Ref: UserClientName
+      AllowedOAuthFlowsUserPoolClient: true
       EnableTokenRevocation: true
       GenerateSecret: true
       PreventUserExistenceErrors: ENABLED
+      AllowedOAuthFlows:
+        - code
+      AllowedOAuthScopes:
+        - email
+        - profile
       CallbackURLs: 
         - !Ref CallbackURL
       UserPoolId:
