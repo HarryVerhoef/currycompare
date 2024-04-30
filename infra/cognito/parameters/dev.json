@@ -25,7 +25,7 @@
   },
   {
     "ParameterKey": "CallbackURL",
-    "ParameterValue": "https://auth.currycompare.com/callback"
+    "ParameterValue": "https://auth.dev.currycompare.com/callback"
   },
   {
     "ParameterKey": "UserPoolCertificateARN",
