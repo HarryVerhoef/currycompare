@@ -75,6 +75,8 @@ Resources:
         - !Ref CallbackURL
       LogoutURLs:
         - !Ref LogoutURL
+      SupportedIdentityProviders:
+        - COGNITO
       UserPoolId:
         Fn::GetAtt: [UserPool, UserPoolId]
 
