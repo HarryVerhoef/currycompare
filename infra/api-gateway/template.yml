@@ -10,6 +10,8 @@ Parameters:
     Type: String
   CertificateARN:
     Type: String
+  AuthorizerName:
+    Type: String
 Resources:
   Api:
     Type: AWS::ApiGatewayV2::Api
@@ -28,6 +30,7 @@ Resources:
   CognitoAuthorizer:
     Type: AWS::ApiGatewayV2::Authorizer
     Properties:
+      Name: !Ref AuthorizerName
       ApiId: !Ref Api
       AuthorizerType: JWT
       IdentitySource: ['$request.header.Authorization']
