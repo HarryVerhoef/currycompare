@@ -5,10 +5,18 @@
   },
   {
     "ParameterKey": "UserPoolId",
-    "ParameterValue": "eu-west-2_PROVY7GSh"
+    "ParameterValue": "eu-west-2_WOmtRSbTA"
   },
   {
     "ParameterKey": "ApiDomainName",
     "ParameterValue": "api.dev.currycompare.com"
+  },
+  {
+    "ParameterKey": "CertificateARN",
+    "ParameterValue": "arn:aws:acm:eu-west-2:637423366782:certificate/d17dfe79-9aa2-4f42-b046-46ffd6670d4a"
+  },
+  {
+    "ParameterKey": "AuthorizerName",
+    "ParameterValue": "DevAuthorizer"
   }
 ]

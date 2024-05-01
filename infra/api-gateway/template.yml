@@ -8,6 +8,10 @@ Parameters:
     Type: String
   ApiDomainName:
     Type: String
+  CertificateARN:
+    Type: String
+  AuthorizerName:
+    Type: String
 Resources:
   Api:
     Type: AWS::ApiGatewayV2::Api
@@ -20,15 +24,19 @@ Resources:
     Type: AWS::ApiGatewayV2::DomainName
     Properties:
       DomainName: !Ref ApiDomainName
+      DomainNameConfigurations:
+        - CertificateArn: !Ref CertificateARN
 
   CognitoAuthorizer:
     Type: AWS::ApiGatewayV2::Authorizer
     Properties:
+      Name: !Ref AuthorizerName
       ApiId: !Ref Api
       AuthorizerType: JWT
       IdentitySource: ['$request.header.Authorization']
       JwtConfiguration:
-        Audience: !Ref UserPoolId
+        Audience:
+          - !Ref UserPoolId
         Issuer: !Sub 'https://cognito-idp.${AWS::Region}.amazonaws.com/${UserPoolId}'
 
   # API Routes

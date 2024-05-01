@@ -22,6 +22,7 @@ Parameters:
   LogoutURL:
     Type: String
 Resources:
+  # When alterning the user pool, or any other resource that might change the user pool id, make sure to update the cognito authoriser
   UserPool:
     Type: AWS::Cognito::UserPool
     Properties:
