@@ -94,5 +94,6 @@ Resources:
     Type: AWS::ApiGatewayV2::Integration
     Properties:
       ApiId: !Ref Api
+      IntegrationUri: !Ref GetCurryhousesLambdaARN
       IntegrationType: AWS_PROXY
       PayloadFormatVersion: 2.0
