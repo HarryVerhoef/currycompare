@@ -1,6 +1,7 @@
 name: Trigger Lambda Deployments (DEV)
 on:
-  push
+  pull_request:
+    types: [opened, reopened, synchronize, closed]
     # branches: [main]
     # paths: 'src/lambdas/**'
 permissions:
