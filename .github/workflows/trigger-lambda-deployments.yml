@@ -6,19 +6,14 @@ on:
 permissions:
   id-token: write # This is required for requesting the JWT
 jobs:
-  DeployDevLambda:
+  TriggerLambdaDeployments:
     runs-on: ubuntu-latest
     environment: dev
     steps:
       - name: Clone the repo
         uses: actions/checkout@v4
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
-          aws-region: ${{ vars.AWS_REGION }}
       - name: Trigger lambda deployments
         env:
           PULL_REQUEST_ID: ${{ github.event.number }}
-        run: npm run deploy:lambdas
+        run: ls && pwd &&  npm run deploy:lambdas
         
