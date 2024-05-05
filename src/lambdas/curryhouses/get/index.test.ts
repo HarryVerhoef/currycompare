@@ -1,5 +1,5 @@
 import buildLambdaEvent from "../../../utils/buildLambdaEvent";
-import { handler } from "./handler";
+import { handler } from ".";
 import buildLambdaContext from "../../../utils/buildLambdaContext";
 import { type LambdaContext, type LambdaEvent } from "../../../types/lambda";
 

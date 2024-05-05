@@ -1,0 +1,12 @@
+---
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Stack encompassing all the resources used by the GET /curryhouses lambda
+  
+Resources:
+  LambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Runtime: nodejs20.x
+      S3Bucket: !Ref S3Bucket
+      S3Key: !Ref S3Key
+      
