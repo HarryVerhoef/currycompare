@@ -12,10 +12,8 @@ jobs:
     steps:
       - name: Clone the repo
         uses: actions/checkout@v4
-      - name: Change directory to src
-        run: cd src
       - name: Trigger lambda deployments
         env:
           PULL_REQUEST_ID: ${{ github.event.number }}
-        run: ls && pwd && npm run deploy:lambdas
+        run: cd src && npm run deploy:lambdas
         
