@@ -22,15 +22,15 @@ const triggerLambdaDeployments = async (): Promise<void> => {
       ref: process.env.COMMIT_SHA,
     });
 
-    const changedPaths = response.data.files?.map(({ filename }) => filename);
+    const changedLambdas =
+      response.data.files
+        ?.map(({ filename: filepath }) => getLambdaKeyFromPath(filepath))
+        .filter<string>((key): key is string => key !== null) ?? [];
 
-    changedPaths?.forEach((path) => {
-      // If path indicates a change to a lambda, trigger a lambda deployment job
-      const lambdaKey: string | null = getLambdaKeyFromPath(path);
+    console.log("Found changed lambdas: ", changedLambdas);
 
-      if (lambdaKey !== null) {
-        console.log("Found changed lambda: ", lambdaKey);
-      }
+    changedLambdas.forEach((key) => {
+      // Trigger workflow for key
     });
   } catch (error) {
     console.error("Error triggering lambda deployments:", error);

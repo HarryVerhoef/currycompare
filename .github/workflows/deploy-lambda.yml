@@ -1,0 +1,41 @@
+name: Deploy Lambda (DEV)
+on:
+  workflow_dispatch:
+    inputs:
+      lambdaKey:
+        required: true
+        type: choice
+        options:
+          - curryhouses/get
+
+permissions:
+  id-token: write # This is required for requesting the JWT
+
+jobs:
+  DeployDevS3:
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - name: Clone the repo
+        uses: actions/checkout@v4
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Install AWS CLI
+        run: pip install awscli
+      - name: Install packages
+        run: cd src && npm install
+      - name: Transpile lambdas
+        run: cd src && npm run transpile
+      - name: Zip lambda
+        run: |
+          zip -r ./index.zip ./src/dist/lambdas/${{ inputs.lambdaKey }}
+          zip -d index.zip index.test.js
+      - name: Write zipped lambda to S3
+        run: aws s3 cp index.zip s3://dev-currycompare-api-lambdas/${{ inputs.lambdaKey }}/index.zip
