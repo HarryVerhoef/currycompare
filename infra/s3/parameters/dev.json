@@ -1,6 +1,6 @@
 [
   {
   "ParameterKey": "BucketName",
-  "ParameterValue": "DevLambdas"
+  "ParameterValue": "dev-lambdas"
   }
 ]
