@@ -6,7 +6,7 @@ on:
 permissions:
   id-token: write # This is required for requesting the JWT
 jobs:
-  DeployDevCognito:
+  DeployDevRDS:
     runs-on: ubuntu-latest
     environment: dev
     steps:

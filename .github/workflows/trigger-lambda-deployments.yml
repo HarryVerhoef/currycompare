@@ -1,12 +1,12 @@
-name: Deploy API Gateway (DEV)
+name: Trigger Lambda Deployments (DEV)
 on:
   push:
-    branches: [main]
-    paths: 'infra/lambdas/**'
+    # branches: [main]
+    paths: 'src/lambdas/**'
 permissions:
   id-token: write # This is required for requesting the JWT
 jobs:
-  DeployDevAPIGateway:
+  DeployDevLambda:
     runs-on: ubuntu-latest
     environment: dev
     steps:
@@ -17,10 +17,8 @@ jobs:
         with:
           role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
           aws-region: ${{ vars.AWS_REGION }}
-      - name: Deploy stack
-        uses: aws-actions/aws-cloudformation-github-deploy@v1
-        with:
-          name: DevApiGateway
-          template: ${{ github.workspace }}/infra/api-gateway/template.yml
-          parameter-overrides: file://${{ github.workspace }}/infra/api-gateway/parameters/dev.json
+      - name: Trigger lambda deployments
+        env:
+          PULL_REQUEST_ID: ${{ github.event.number }}
+        run: npm run deploy:lambdas
         
