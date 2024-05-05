@@ -7,7 +7,9 @@
     "test": "./node_modules/.bin/jest",
     "db:migrate:local": "npx prisma migrate dev",
     "db:migrate:deploy": "npx prisma migrate deploy",
-    "log:db:url": "npx ts-node -r dotenv/config ./utils/buildDatabaseURL/index.ts"
+    "log:db:url": "npx ts-node -r dotenv/config ./utils/buildDatabaseURL/index.ts",
+    "transpile": "npx tsc",
+    "deploy:lambdas": "./node_modules/.bin/ts-node ./ci/scripts/triggerLambdaDeployments.ts"
   },
   "author": "Harry Verhoef",
   "license": "ISC",
@@ -15,6 +17,7 @@
     "@babel/core": "^7.23.9",
     "@babel/preset-env": "^7.23.9",
     "@babel/preset-typescript": "^7.23.3",
+    "@types/aws-lambda": "^8.10.137",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.20",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
@@ -30,6 +33,7 @@
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.33.2",
     "jest": "^29.7.0",
+    "octokit": "^3.2.1",
     "prettier": "^3.2.5",
     "prisma": "^5.9.1",
     "ts-node": "^10.9.2",

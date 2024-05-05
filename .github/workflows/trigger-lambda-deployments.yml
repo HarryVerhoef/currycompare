@@ -1,0 +1,22 @@
+name: Trigger Lambda Deployments (DEV)
+on:
+  push:
+    paths: 'src/lambdas/**'
+    # branches: [main]
+permissions:
+  id-token: write # This is required for requesting the JWT
+jobs:
+  TriggerLambdaDeployments:
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - name: Clone the repo
+        uses: actions/checkout@v4
+      - name: Install packages
+        run: cd src && npm install
+      - name: Trigger lambda deployments
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COMMIT_SHA: ${{ github.event.after }}
+        run: cd src && npm run deploy:lambdas
+        

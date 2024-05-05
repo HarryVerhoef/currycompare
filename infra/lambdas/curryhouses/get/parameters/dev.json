@@ -1,0 +1,14 @@
+[
+  {
+    "ParameterKey": "Runtime",
+    "ParameterValue": "nodejs20.x"
+  },
+  {
+    "ParameterKey": "S3Bucket",
+    "ParameterValue": "dev-currycompare-api-lambdas"
+  },
+  {
+    "ParameterKey": "S3Key",
+    "ParameterValue": "curryhouses/get/index.zip"
+  }
+]

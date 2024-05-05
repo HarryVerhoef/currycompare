@@ -1,0 +1,6 @@
+[
+  {
+  "ParameterKey": "BucketName",
+  "ParameterValue": "dev-currycompare-api-lambdas"
+  }
+]

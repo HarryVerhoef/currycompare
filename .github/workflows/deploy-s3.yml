@@ -1,12 +1,12 @@
-name: Deploy Database (DEV)
+name: Deploy S3 (DEV)
 on:
   push:
-    branches: [main]
-    paths: 'infra/database/**'
+    # branches: [main]
+    paths: 'infra/s3/**'
 permissions:
   id-token: write # This is required for requesting the JWT
 jobs:
-  DeployDevRDS:
+  DeployDevS3:
     runs-on: ubuntu-latest
     environment: dev
     steps:
@@ -20,6 +20,7 @@ jobs:
       - name: Deploy stack
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
-          name: DevDatabase
-          template: ${{ github.workspace }}/infra/database/template.yml
-          parameter-overrides: file://${{ github.workspace }}/infra/database/parameters/dev.json
+          name: DevS3
+          template: ${{ github.workspace }}/infra/s3/template.yml
+          parameter-overrides: file://${{ github.workspace }}/infra/s3/parameters/dev.json
+        

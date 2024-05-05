@@ -12,6 +12,8 @@ Parameters:
     Type: String
   AuthorizerName:
     Type: String
+  GetCurryhousesLambdaARN:
+    Type: String
 Resources:
   Api:
     Type: AWS::ApiGatewayV2::Api
@@ -85,4 +87,13 @@ Resources:
     Properties:
       ApiId: !Ref Api
       RouteKey: PUT /curryhouse/{curryHouseId}
-  
+
+
+  # API Integrations
+  GetCurryhousesIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref Api
+      IntegrationUri: !Ref GetCurryhousesLambdaARN
+      IntegrationType: AWS_PROXY
+      PayloadFormatVersion: 2.0

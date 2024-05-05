@@ -1,0 +1,13 @@
+---
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Stack encompassing all the s3 resources
+Parameters:
+  BucketName:
+    Type: String
+
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref BucketName
+    
