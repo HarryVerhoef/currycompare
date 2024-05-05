@@ -1,9 +1,8 @@
 name: Trigger Lambda Deployments (DEV)
 on:
-  pull_request:
-    types: [opened, reopened, synchronize, closed]
+  push:
+    paths: 'src/lambdas/**'
     # branches: [main]
-    # paths: 'src/lambdas/**'
 permissions:
   id-token: write # This is required for requesting the JWT
 jobs:
@@ -18,6 +17,6 @@ jobs:
       - name: Trigger lambda deployments
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PULL_REQUEST_ID: ${{ github.event.number }}
+          COMMIT_SHA: ${{ github.event.after }}
         run: cd src && npm run deploy:lambdas
         

@@ -6,27 +6,25 @@ const triggerLambdaDeployments = async (): Promise<void> => {
   if (process.env.GITHUB_TOKEN === undefined)
     throw new Error("GITHUB_TOKEN not defined");
 
-  if (process.env.PULL_REQUEST_ID === undefined)
-    throw new Error("PULL_REQUEST_ID not defined");
+  if (process.env.COMMIT_SHA === undefined)
+    throw new Error("COMMIT_SHA not defined");
 
   try {
     const { rest } = new Octokit({ auth: process.env.GITHUB_TOKEN });
 
-    const pullNumber = Number(process.env.PULL_REQUEST_ID);
-
-    console.log(`Getting changed files for pull request #${pullNumber}...`);
-
-    const response = await rest.pulls.listFiles({
-      owner: REPO_OWNER,
-      repo: REPO_NAME,
-      pull_number: pullNumber,
-    });
-
-    const changedPaths: string[] = response.data.map(
-      ({ filename }) => filename,
+    console.log(
+      `Getting changed files for commit ${process.env.COMMIT_SHA}...`,
     );
 
-    changedPaths.forEach((path) => {
+    const response = await rest.repos.getCommit({
+      owner: REPO_OWNER,
+      repo: REPO_NAME,
+      ref: process.env.COMMIT_SHA,
+    });
+
+    const changedPaths = response.data.files?.map(({ filename }) => filename);
+
+    changedPaths?.forEach((path) => {
       // If path indicates a change to a lambda, trigger a lambda deployment job
       const lambdaKey: string | null = getLambdaKeyFromPath(path);
 
