@@ -9,7 +9,7 @@
     "db:migrate:deploy": "npx prisma migrate deploy",
     "log:db:url": "npx ts-node -r dotenv/config ./utils/buildDatabaseURL/index.ts",
     "transpile": "npx tsc",
-    "deploy:lambdas": "npx ts-node ./ci/scripts/triggerLambdaDeployments.index.ts"
+    "deploy:lambdas": "npx ts-node ./ci/scripts/triggerLambdaDeployments/index.ts"
   },
   "author": "Harry Verhoef",
   "license": "ISC",
