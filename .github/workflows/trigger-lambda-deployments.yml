@@ -16,6 +16,7 @@ jobs:
         run: cd src && npm install
       - name: Trigger lambda deployments
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PULL_REQUEST_ID: ${{ github.event.number }}
         run: cd src && npm run deploy:lambdas
         
