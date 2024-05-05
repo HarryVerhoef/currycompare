@@ -1,7 +1,7 @@
 import { type LambdaHandler } from "../../../types/lambda";
 
 export const handler: LambdaHandler = async (event) => {
-  // Force workflow
+  // Force workflow test
   console.log("Request event:", event);
 
   return {
