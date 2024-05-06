@@ -15,5 +15,5 @@ Resources:
     Properties:
       Runtime: !Ref Runtime
       S3Bucket: !Ref S3Bucket
-      S3Key: !Ref GetCurryhousesS3KeyS3Key
+      S3Key: !Ref GetCurryhousesS3Key
       
