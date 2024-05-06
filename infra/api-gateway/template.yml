@@ -89,7 +89,7 @@ Resources:
       RouteKey: PUT /curryhouse/{curryHouseId}
 
 
-  # API Integrations
+  # API Integrations with force push
   GetCurryhousesIntegration:
     Type: AWS::ApiGatewayV2::Integration
     Properties:
