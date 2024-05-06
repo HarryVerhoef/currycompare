@@ -14,6 +14,7 @@ Resources:
     Type: AWS::Lambda::Function
     Properties:
       Runtime: !Ref Runtime
-      S3Bucket: !Ref S3Bucket
-      S3Key: !Ref GetCurryhousesS3Key
+      Code:
+        S3Bucket: !Ref S3Bucket
+        S3Key: !Ref GetCurryhousesS3Key
       

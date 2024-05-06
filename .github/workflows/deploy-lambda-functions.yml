@@ -22,7 +22,7 @@ jobs:
       - name: Deploy stack
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
-          name: DevDatabase
+          name: DevLambdas
           template: ${{ github.workspace }}/infra/lambdas/template.yml
           parameter-overrides: file://${{ github.workspace }}/infra/lambdas/parameters/dev.json
     
