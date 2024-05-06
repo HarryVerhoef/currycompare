@@ -35,7 +35,10 @@ jobs:
         run: cd src && npm run transpile
       - name: Zip lambda
         run: |
-          zip -r ./index.zip ./src/dist/lambdas/${{ inputs.lambdaKey }}
+          cd ./src/dist/lambdas/${{ inputs.lambdaKey }}
+          zip -r ./index.zip .
           zip -d index.zip index.test.js
       - name: Write zipped lambda to S3
-        run: aws s3 cp index.zip s3://dev-currycompare-api-lambdas/${{ inputs.lambdaKey }}/index.zip
+        run: |
+          cd ./src/dist/lambdas/${{ inputs.lambdaKey }}
+          aws s3 cp index.zip s3://dev-currycompare-api-lambdas/${{ inputs.lambdaKey }}/index.zip
