@@ -14,6 +14,8 @@ Resources:
     Type: AWS::Lambda::Function
     Properties:
       Runtime: !Ref Runtime
+      PackageType: Zip
+      Handler: index.handler
       Code:
         S3Bucket: !Ref S3Bucket
         S3Key: !Ref GetCurryhousesS3Key
