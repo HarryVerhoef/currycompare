@@ -1,4 +1,4 @@
-name: Deploy Lambda (DEV)
+name: Deploy Lambda to S3 (DEV)
 on:
   workflow_dispatch:
     inputs:

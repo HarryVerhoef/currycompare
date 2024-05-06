@@ -8,7 +8,7 @@
     "ParameterValue": "dev-currycompare-api-lambdas"
   },
   {
-    "ParameterKey": "S3Key",
+    "ParameterKey": "GetCurryhousesS3Key",
     "ParameterValue": "curryhouses/get/index.zip"
   }
 ]

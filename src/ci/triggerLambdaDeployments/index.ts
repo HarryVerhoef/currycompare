@@ -47,7 +47,7 @@ const triggerLambdaDeployments = async (): Promise<void> => {
         return await rest.actions.createWorkflowDispatch({
           owner: REPO_OWNER,
           repo: REPO_NAME,
-          workflow_id: "deploy-lambda.yml",
+          workflow_id: "deploy-lambda-to-s3.yml",
           ref,
           inputs: {
             lambdaKey: key,
