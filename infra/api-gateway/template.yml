@@ -67,6 +67,10 @@ Resources:
     Properties:
       ApiId: !Ref Api
       RouteKey: GET /curryhouses
+      Target: !Join
+        - ''
+        - - 'integrations/'
+          - !Ref GetCurryhousesIntegration
   PostCurryhouseApplication:
     Type: AWS::ApiGatewayV2::Route
     Properties:
