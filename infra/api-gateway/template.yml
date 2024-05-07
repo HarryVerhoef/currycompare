@@ -14,6 +14,8 @@ Parameters:
     Type: String
   GetCurryhousesLambdaARN:
     Type: String
+  LogGroupName:
+    Type: String
 Resources:
   Api:
     Type: AWS::ApiGatewayV2::Api
@@ -28,6 +30,10 @@ Resources:
       ApiId: !Ref Api
       StageName: $default
       AutoDeploy: true
+      AccessLogSettings:
+        DestinationArn: !GetAtt ApiLogGroup.Arn
+        Format: |
+          { "requestId":"$context.requestId", "ip": "$context.identity.sourceIp", "caller":"$context.identity.caller", "user":"$context.identity.user", "requestTime":"$context.requestTime", "httpMethod":"$context.httpMethod", "resourcePath":"$context.resourcePath", "status":"$context.status", "protocol":"$context.protocol", "responseLength":"$context.responseLength" }
 
   ApiMapping:
     Type: AWS::ApiGatewayV2::ApiMapping
@@ -115,3 +121,32 @@ Resources:
       IntegrationUri: !Ref GetCurryhousesLambdaARN
       IntegrationType: AWS_PROXY
       PayloadFormatVersion: 2.0
+
+  ApiLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Ref LogGroupName
+
+  ApiRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - apigateway.amazonaws.com
+              Action:
+                - sts:AssumeRole
+      Policies:
+        - PolicyName: ApiLogsPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogStream
+                  - logs:CreateLogGroup
+                  - logs:PutLogEvents
+                Resource: !GetAtt ApiLogGroup.Arn
