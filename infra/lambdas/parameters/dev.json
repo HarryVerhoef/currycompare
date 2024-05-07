@@ -10,5 +10,9 @@
   {
     "ParameterKey": "GetCurryhousesS3Key",
     "ParameterValue": "curryhouses/get/index.zip"
+  },
+  {
+    "ParameterKey": "ApiArn",
+    "ParameterValue": "arn:aws:apigateway:eu-west-2::/apis/hiljjydknd"
   }
 ]

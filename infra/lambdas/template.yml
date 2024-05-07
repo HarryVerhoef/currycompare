@@ -44,3 +44,12 @@ Resources:
                   - 'logs:CreateLogStream'
                   - 'logs:PutLogEvents'
                 Resource: '*'
+
+  GetCurryhousesPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: 
+        Fn::GetAtt: [GetCurryhousesFunction, Arn]
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Ref ApiArn
