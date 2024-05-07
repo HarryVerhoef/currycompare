@@ -22,6 +22,20 @@ Resources:
         Ref: ApiName
       ProtocolType: HTTP
 
+  Stage:
+    Type: AWS::ApiGatewayV2::Stage
+    Properties:
+      ApiId: !Ref Api
+      StageName: $default
+      AutoDeploy: true
+
+  ApiMapping:
+    Type: AWS::ApiGatewayV2::ApiMapping
+    Properties:
+      ApiId: !Ref Api
+      Stage: !Ref Stage
+      DomainName: !Ref DomainName
+
   DomainName:
     Type: AWS::ApiGatewayV2::DomainName
     Properties:
