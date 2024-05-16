@@ -13,6 +13,6 @@
   },
   {
     "ParameterKey": "ApiArn",
-    "ParameterValue": "arn:aws:apigateway:eu-west-2::/apis/hiljjydknd"
+    "ParameterValue": "arn:aws:execute-api:eu-west-2:637423366782:2v4t7lvpyd/*/*/curryhouses"
   }
 ]
