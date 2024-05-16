@@ -14,6 +14,8 @@ Parameters:
     Type: String
   GetCurryhousesLambdaARN:
     Type: String
+  LogGroupName:
+    Type: String
 Resources:
   Api:
     Type: AWS::ApiGatewayV2::Api
@@ -21,6 +23,24 @@ Resources:
       Name:
         Ref: ApiName
       ProtocolType: HTTP
+
+  Stage:
+    Type: AWS::ApiGatewayV2::Stage
+    Properties:
+      ApiId: !Ref Api
+      StageName: $default
+      AutoDeploy: true
+      AccessLogSettings:
+        DestinationArn: !GetAtt ApiLogGroup.Arn
+        Format: |
+          { "requestId":"$context.requestId", "ip": "$context.identity.sourceIp", "caller":"$context.identity.caller", "user":"$context.identity.user", "requestTime":"$context.requestTime", "httpMethod":"$context.httpMethod", "resourcePath":"$context.resourcePath", "status":"$context.status", "protocol":"$context.protocol", "responseLength":"$context.responseLength" }
+
+  ApiMapping:
+    Type: AWS::ApiGatewayV2::ApiMapping
+    Properties:
+      ApiId: !Ref Api
+      Stage: !Ref Stage
+      DomainName: !Ref DomainName
 
   DomainName:
     Type: AWS::ApiGatewayV2::DomainName
@@ -67,6 +87,10 @@ Resources:
     Properties:
       ApiId: !Ref Api
       RouteKey: GET /curryhouses
+      Target: !Join
+        - ''
+        - - 'integrations/'
+          - !Ref GetCurryhousesIntegration
   PostCurryhouseApplication:
     Type: AWS::ApiGatewayV2::Route
     Properties:
@@ -89,7 +113,7 @@ Resources:
       RouteKey: PUT /curryhouse/{curryHouseId}
 
 
-  # API Integrations
+  # API Integrations with force push
   GetCurryhousesIntegration:
     Type: AWS::ApiGatewayV2::Integration
     Properties:
@@ -97,3 +121,32 @@ Resources:
       IntegrationUri: !Ref GetCurryhousesLambdaARN
       IntegrationType: AWS_PROXY
       PayloadFormatVersion: 2.0
+
+  ApiLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Ref LogGroupName
+
+  ApiRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - apigateway.amazonaws.com
+              Action:
+                - sts:AssumeRole
+      Policies:
+        - PolicyName: ApiLogsPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogStream
+                  - logs:CreateLogGroup
+                  - logs:PutLogEvents
+                Resource: !GetAtt ApiLogGroup.Arn

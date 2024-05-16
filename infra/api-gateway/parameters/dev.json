@@ -21,6 +21,10 @@
   },
   {
     "ParameterKey": "GetCurryhousesLambdaARN",
-    "ParameterValue": "temp"
+    "ParameterValue": "arn:aws:lambda:eu-west-2:637423366782:function:DevLambdas-GetCurryhousesFunction-vyNRscYSMqjI"
+  },
+  {
+    "ParameterKey": "LogGroupName",
+    "ParameterValue": "DevApiGatewayLogs"
   }
 ]

@@ -23,6 +23,17 @@ const triggerLambdaDeployments = async (): Promise<void> => {
       ref: sha,
     });
 
+    const pushedToBranches = await rest.repos.listBranchesForHeadCommit({
+      owner: REPO_OWNER,
+      repo: REPO_NAME,
+      commit_sha: sha,
+    });
+
+    console.log(`Branches where commit ${sha} is head:`);
+    console.log(JSON.stringify(pushedToBranches));
+
+    const ref = pushedToBranches.data[0].name;
+
     const changedLambdas =
       response.data.files
         ?.map(({ filename: filepath }) => getLambdaKeyFromPath(filepath))
@@ -36,8 +47,8 @@ const triggerLambdaDeployments = async (): Promise<void> => {
         return await rest.actions.createWorkflowDispatch({
           owner: REPO_OWNER,
           repo: REPO_NAME,
-          workflow_id: "deploy-lambda.yml",
-          ref: sha,
+          workflow_id: "deploy-lambda-to-s3.yml",
+          ref,
           inputs: {
             lambdaKey: key,
           },

@@ -1,12 +1,14 @@
-name: Deploy S3 (DEV)
+name: Deploy Lambda Functions (DEV)
 on:
   push:
-    branches: [main]
-    paths: 'infra/s3/**'
+    # branches: [main]
+    paths: 'infra/lambdas/**'
+
 permissions:
   id-token: write # This is required for requesting the JWT
+
 jobs:
-  DeployDevS3:
+  DeployLambdas:
     runs-on: ubuntu-latest
     environment: dev
     steps:
@@ -20,7 +22,7 @@ jobs:
       - name: Deploy stack
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
-          name: DevS3
-          template: ${{ github.workspace }}/infra/s3/template.yml
-          parameter-overrides: file://${{ github.workspace }}/infra/s3/parameters/dev.json
-        
+          name: DevLambdas
+          template: ${{ github.workspace }}/infra/lambdas/template.yml
+          parameter-overrides: file://${{ github.workspace }}/infra/lambdas/parameters/dev.json
+    

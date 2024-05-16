@@ -2,9 +2,10 @@ name: Trigger Lambda Deployments (DEV)
 on:
   push:
     paths: 'src/lambdas/**'
-    # branches: [main]
+    branches: [main]
 permissions:
   id-token: write # This is required for requesting the JWT
+  actions: write
 jobs:
   TriggerLambdaDeployments:
     runs-on: ubuntu-latest
