@@ -2,6 +2,7 @@ import buildLambdaEvent from "../../../utils/buildLambdaEvent";
 import { handler } from ".";
 import buildLambdaContext from "../../../utils/buildLambdaContext";
 import { type LambdaContext, type LambdaEvent } from "../../../types/lambda";
+import { SearchRadius } from "../../../codecs/SearchRadius";
 
 describe("GET /curryhouses", () => {
   afterEach(() => {
@@ -23,7 +24,7 @@ describe("GET /curryhouses", () => {
     const event = buildLambdaEvent({
       queryStringParameters: {
         lat: "10",
-        rad: "5",
+        rad: SearchRadius.FIVE,
       },
     });
 
@@ -31,7 +32,7 @@ describe("GET /curryhouses", () => {
 
     expect(statusCode).toBe(400);
     expect(JSON.parse(body ?? "{}").errorMsg).toBe(
-      "Missing required query string parameter: 'lng'",
+      "There was an error parsing: undefined",
     );
   });
 
@@ -39,7 +40,7 @@ describe("GET /curryhouses", () => {
     const event = buildLambdaEvent({
       queryStringParameters: {
         lng: "10",
-        rad: "5",
+        rad: SearchRadius.FIVE,
       },
     });
 
@@ -47,7 +48,7 @@ describe("GET /curryhouses", () => {
 
     expect(statusCode).toBe(400);
     expect(JSON.parse(body ?? "{}").errorMsg).toBe(
-      "Missing required query string parameter: 'lat'",
+      "There was an error parsing: undefined",
     );
   });
 
@@ -63,7 +64,7 @@ describe("GET /curryhouses", () => {
 
     expect(statusCode).toBe(400);
     expect(JSON.parse(body ?? "{}").errorMsg).toBe(
-      "Missing required query string parameter: 'rad'",
+      "There was an error parsing: undefined",
     );
   });
 
@@ -72,7 +73,7 @@ describe("GET /curryhouses", () => {
       queryStringParameters: {
         lat: "ten",
         lng: "10",
-        rad: "5",
+        rad: SearchRadius.FIVE,
       },
     });
 
@@ -80,7 +81,7 @@ describe("GET /curryhouses", () => {
 
     expect(statusCode).toBe(400);
     expect(JSON.parse(body ?? "{}").errorMsg).toBe(
-      "Expected 'lat' to be a number",
+      "There was an error parsing ten: cannot parse ten to a number",
     );
   });
 
@@ -89,7 +90,7 @@ describe("GET /curryhouses", () => {
       queryStringParameters: {
         lat: "10",
         lng: "ten",
-        rad: "5",
+        rad: SearchRadius.FIVE,
       },
     });
 
@@ -97,7 +98,7 @@ describe("GET /curryhouses", () => {
 
     expect(statusCode).toBe(400);
     expect(JSON.parse(body ?? "{}").errorMsg).toBe(
-      "Expected 'lat' to be a number",
+      "There was an error parsing ten: cannot parse ten to a number",
     );
   });
 
@@ -114,7 +115,7 @@ describe("GET /curryhouses", () => {
 
     expect(statusCode).toBe(400);
     expect(JSON.parse(body ?? "{}").errorMsg).toBe(
-      "Expected 'rad' to be a number",
+      "There was an error parsing: five",
     );
   });
 });
