@@ -2,6 +2,7 @@ import buildLambdaEvent from "../../../utils/buildLambdaEvent";
 import { handler } from ".";
 import buildLambdaContext from "../../../utils/buildLambdaContext";
 import { type LambdaContext, type LambdaEvent } from "../../../types/lambda";
+import { SearchRadius } from "../../../codecs/SearchRadius";
 
 describe("GET /curryhouses", () => {
   afterEach(() => {
@@ -19,14 +20,102 @@ describe("GET /curryhouses", () => {
     expect(console.log).toHaveBeenCalledWith("Request event:", dummyEvent);
   });
 
-  it("should return hello world with a 200 status code", async () => {
-    const { statusCode, body } = await handler(
-      dummyEvent,
-      dummyContext,
-      () => {},
-    );
+  it("should respond with a 400 if lng is not included as a query string parameter", async () => {
+    const event = buildLambdaEvent({
+      queryStringParameters: {
+        lat: "10",
+        rad: SearchRadius.FIVE,
+      },
+    });
 
-    expect(statusCode).toBe(200);
-    expect(body).toBe("hello, world");
+    const { statusCode, body } = await handler(event, dummyContext, () => {});
+
+    expect(statusCode).toBe(400);
+    expect(JSON.parse(body ?? "{}").errorMsg).toBe(
+      "There was an error parsing: undefined",
+    );
+  });
+
+  it("should respond with a 400 if lat is not included as a query string parameter", async () => {
+    const event = buildLambdaEvent({
+      queryStringParameters: {
+        lng: "10",
+        rad: SearchRadius.FIVE,
+      },
+    });
+
+    const { statusCode, body } = await handler(event, dummyContext, () => {});
+
+    expect(statusCode).toBe(400);
+    expect(JSON.parse(body ?? "{}").errorMsg).toBe(
+      "There was an error parsing: undefined",
+    );
+  });
+
+  it("should respond with a 400 if rad is not included as a query string parameter", async () => {
+    const event = buildLambdaEvent({
+      queryStringParameters: {
+        lat: "10",
+        lng: "10",
+      },
+    });
+
+    const { statusCode, body } = await handler(event, dummyContext, () => {});
+
+    expect(statusCode).toBe(400);
+    expect(JSON.parse(body ?? "{}").errorMsg).toBe(
+      "There was an error parsing: undefined",
+    );
+  });
+
+  it("should respond with a 400 if lat is not a number", async () => {
+    const event = buildLambdaEvent({
+      queryStringParameters: {
+        lat: "ten",
+        lng: "10",
+        rad: SearchRadius.FIVE,
+      },
+    });
+
+    const { statusCode, body } = await handler(event, dummyContext, () => {});
+
+    expect(statusCode).toBe(400);
+    expect(JSON.parse(body ?? "{}").errorMsg).toBe(
+      "There was an error parsing ten: cannot parse ten to a number",
+    );
+  });
+
+  it("should respond with a 400 if lng is not a number", async () => {
+    const event = buildLambdaEvent({
+      queryStringParameters: {
+        lat: "10",
+        lng: "ten",
+        rad: SearchRadius.FIVE,
+      },
+    });
+
+    const { statusCode, body } = await handler(event, dummyContext, () => {});
+
+    expect(statusCode).toBe(400);
+    expect(JSON.parse(body ?? "{}").errorMsg).toBe(
+      "There was an error parsing ten: cannot parse ten to a number",
+    );
+  });
+
+  it("should respond with a 400 if rad is not a number", async () => {
+    const event = buildLambdaEvent({
+      queryStringParameters: {
+        lat: "10",
+        lng: "10",
+        rad: "five",
+      },
+    });
+
+    const { statusCode, body } = await handler(event, dummyContext, () => {});
+
+    expect(statusCode).toBe(400);
+    expect(JSON.parse(body ?? "{}").errorMsg).toBe(
+      "There was an error parsing: five",
+    );
   });
 });

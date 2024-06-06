@@ -41,6 +41,8 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@prisma/client": "^5.9.1"
+    "@prisma/client": "^5.9.1",
+    "fp-ts": "^2.16.6",
+    "io-ts": "^2.2.21"
   }
 }
