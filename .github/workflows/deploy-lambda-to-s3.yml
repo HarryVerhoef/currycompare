@@ -32,13 +32,13 @@ jobs:
       - name: Install packages
         run: cd src && npm install
       - name: Transpile lambdas
-        run: cd src && npm run transpile
+        run: cd src && npm run transpile ./src/lambdas/${{ inputs.lambdaKey }}/index.ts ./dist/handler.js
       - name: Zip lambda
         run: |
-          cd ./src/dist/lambdas/${{ inputs.lambdaKey }}
+          cd ./dist
           zip -r ./index.zip .
           zip -d index.zip index.test.js
       - name: Write zipped lambda to S3
         run: |
-          cd ./src/dist/lambdas/${{ inputs.lambdaKey }}
+          cd ./src/dist
           aws s3 cp index.zip s3://dev-currycompare-api-lambdas/${{ inputs.lambdaKey }}/index.zip
