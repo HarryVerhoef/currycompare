@@ -8,7 +8,7 @@
     "db:migrate:local": "npx prisma migrate dev",
     "db:migrate:deploy": "npx prisma migrate deploy",
     "log:db:url": "npx ts-node -r dotenv/config ./utils/buildDatabaseURL/index.ts",
-    "transpile": "npx tsc",
+    "transpile": "./node_modules/.bin/ts-node ./ci/scripts/transpile.ts",
     "deploy:lambdas": "./node_modules/.bin/ts-node ./ci/scripts/triggerLambdaDeployments.ts"
   },
   "author": "Harry Verhoef",
@@ -23,6 +23,7 @@
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "babel-jest": "^29.7.0",
     "dotenv": "^16.4.5",
+    "esbuild": "^0.21.4",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard-with-typescript": "^43.0.1",
