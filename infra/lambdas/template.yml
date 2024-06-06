@@ -6,6 +6,8 @@ Parameters:
     Type: String
   S3Bucket:
     Type: String
+  GetCurryhousesFunctionName:
+    Type: String
   GetCurryhousesS3Key:
     Type: String
   ApiArn:
@@ -15,6 +17,7 @@ Resources:
   GetCurryhousesFunction:
     Type: AWS::Lambda::Function
     Properties:
+      FunctionName: !Ref GetCurryhousesFunctionName
       Runtime: !Ref Runtime
       PackageType: Zip
       Handler: index.handler

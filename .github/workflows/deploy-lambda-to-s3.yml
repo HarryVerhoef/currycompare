@@ -41,3 +41,6 @@ jobs:
         run: |
           cd ./src/dist
           aws s3 cp index.zip s3://dev-currycompare-api-lambdas/${{ inputs.lambdaKey }}/index.zip
+      - name: Update lambda code
+        run: aws lambda update-function-code --function-name MyLambdaFunctionName --s3-bucket my-bucket-name --s3-key my-function.zip
+

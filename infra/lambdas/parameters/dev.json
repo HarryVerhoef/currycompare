@@ -8,6 +8,10 @@
     "ParameterValue": "dev-currycompare-api-lambdas"
   },
   {
+    "ParameterKey": "GetCurryhousesFunctionName",
+    "ParameterValue": "DevGetCurryhouses"
+  },
+  {
     "ParameterKey": "GetCurryhousesS3Key",
     "ParameterValue": "curryhouses/get/index.zip"
   },
