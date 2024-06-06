@@ -32,7 +32,7 @@ jobs:
       - name: Install packages
         run: cd src && npm install
       - name: Transpile lambdas
-        run: cd src && npm run transpile ./src/lambdas/${{ inputs.lambdaKey }}/index.ts ./dist/handler.js
+        run: cd src && npm run transpile ./lambdas/${{ inputs.lambdaKey }}/index.ts ./dist/index.js
       - name: Zip lambda
         run: |
           cd ./dist
