@@ -11,7 +11,7 @@ on:
         required: true
         type: choice
         options:
-          - DevCurryhouses
+          - GetCurryhouses
 
 permissions:
   id-token: write # This is required for requesting the JWT
