@@ -7,6 +7,8 @@ import convertSearchRadiusToMetres from "../../../utils/convertSearchRadiusToMet
 
 // https://www.prisma.io/docs/orm/prisma-client/deployment/serverless/deploy-to-aws-lambda#deploy-only-the-required-files
 
+export const getCurryhousesName = "GetCurryhouses";
+
 export const handler: LambdaHandler = async (event) => {
   console.log("Request event:", event);
 

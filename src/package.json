@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/jest",
+    "db:generate": "npx prisma generate",
     "db:migrate:local": "npx prisma migrate dev",
     "db:migrate:deploy": "npx prisma migrate deploy",
     "log:db:url": "npx ts-node -r dotenv/config ./utils/buildDatabaseURL/index.ts",
