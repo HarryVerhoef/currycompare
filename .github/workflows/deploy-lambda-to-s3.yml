@@ -7,6 +7,11 @@ on:
         type: choice
         options:
           - curryhouses/get
+      lambdaName:
+        required: true
+        type: choice
+        options:
+          - DevCurryhouses
 
 permissions:
   id-token: write # This is required for requesting the JWT
@@ -32,7 +37,10 @@ jobs:
       - name: Install packages
         run: cd src && npm install
       - name: Transpile lambdas
-        run: cd src && npm run transpile ./lambdas/${{ inputs.lambdaKey }}/index.ts ./dist/index.js
+        run: |
+          cd src
+          npm run db:generate
+          npm run transpile ./lambdas/${{ inputs.lambdaKey }}/index.ts ./dist/index.js
       - name: Zip lambda
         run: |
           cd ./src/dist
@@ -42,5 +50,5 @@ jobs:
           cd ./src/dist
           aws s3 cp index.zip s3://dev-currycompare-api-lambdas/${{ inputs.lambdaKey }}/index.zip
       - name: Update lambda code
-        run: aws lambda update-function-code --function-name MyLambdaFunctionName --s3-bucket my-bucket-name --s3-key my-function.zip
+        run: aws lambda update-function-code --function-name Dev${{ inputs.lambdaName }} --s3-bucket my-bucket-name --s3-key my-function.zip
 
