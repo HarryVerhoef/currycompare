@@ -39,9 +39,9 @@ jobs:
       - name: Transpile lambdas
         run: |
           cd src
-          mkdir dist
+          mkdir -p ./dist/.prisma/generated
           npm run db:generate
-          cp ./prisma/generated/libquery_engine-rhel-openssl-3.0.x.so.node ./dist/libquery_engine-rhel-openssl-3.0.x.so.node
+          cp ./prisma/generated/libquery_engine-rhel-openssl-3.0.x.so.node ./dist/.prisma/generated/libquery_engine-rhel-openssl-3.0.x.so.node
           npm run transpile ./lambdas/${{ inputs.lambdaKey }}/index.ts ./dist/index.js
       - name: Zip lambda
         run: |
