@@ -33,6 +33,8 @@ export const buildDatabaseURL = async ({
 
     if (response.SecretString === undefined) throw Error();
 
+    console.log(response); // temp
+
     const password = JSON.parse(response.SecretString).password as string;
 
     const encodedPassword = encodeURIComponent(password);
