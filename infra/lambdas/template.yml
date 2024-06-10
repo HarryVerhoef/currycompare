@@ -24,6 +24,7 @@ Resources:
       Code:
         S3Bucket: !Ref S3Bucket
         S3Key: !Ref GetCurryhousesS3Key
+      Timeout: 10
       Role:
         Fn::GetAtt: [GetCurryhousesRole, Arn]
   
