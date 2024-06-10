@@ -40,7 +40,8 @@ export const buildDatabaseURL = async ({
     const encodedPassword = encodeURIComponent(password);
 
     return `postgresql://${process.env.DB_MASTER_USERNAME}:${encodedPassword}@${process.env.DB_ENDPOINT}:5432`;
-  } catch {
+  } catch (e) {
+    console.error(e); // temp
     throw Error("There was an error building the database URL.");
   }
 };
