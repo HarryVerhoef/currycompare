@@ -48,6 +48,7 @@ Resources:
                   - 'logs:CreateLogGroup'
                   - 'logs:CreateLogStream'
                   - 'logs:PutLogEvents'
+                  - 'secretsmanager:GetSecretValue'
                 Resource: '*'
 
   GetCurryhousesPermission:
