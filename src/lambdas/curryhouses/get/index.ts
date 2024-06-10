@@ -27,6 +27,8 @@ export const handler: LambdaHandler = async (event) => {
 
   const dbUrl = await buildDatabaseURL({});
 
+  console.log(`Database URL: ${dbUrl}`);
+
   const prisma = new PrismaClient({ datasourceUrl: dbUrl });
 
   // TODO: Need to ensure this is safe from injection.
