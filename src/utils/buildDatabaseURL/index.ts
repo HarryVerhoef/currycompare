@@ -1,19 +1,44 @@
-#!/usr/bin/env ts-node
+import {
+  SecretsManagerClient,
+  GetSecretValueCommand,
+} from "@aws-sdk/client-secrets-manager";
 
-export const buildDatabaseURL = (): string => {
-  if (process.env.DB_MASTER_USERNAME === undefined) {
+export const buildDatabaseURL = async ({
+  username = process.env.DB_MASTER_USERNAME,
+  dbPasswordSecretName = process.env.DB_PASSWORD_SECRET_NAME,
+  endpoint = process.env.DB_ENDPOINT,
+}): Promise<string> => {
+  if (username === undefined) {
     throw Error("Environment variable 'DB_MASTER_USERNAME' not set");
   }
 
-  if (process.env.DB_MASTER_PASSWORD === undefined) {
-    throw Error("Environment variable 'DB_MASTER_PASSWORD' not set");
+  if (dbPasswordSecretName === undefined) {
+    throw Error("Environment variable 'DB_PASSWORD_SECRET_NAME' not set");
   }
 
-  if (process.env.DB_ENDPOINT === undefined) {
+  if (endpoint === undefined) {
     throw Error("Environment variable 'DB_ENDPOINT' not set");
   }
 
-  const encodedPassword = encodeURIComponent(process.env.DB_MASTER_PASSWORD);
+  try {
+    const client = new SecretsManagerClient();
 
-  return `postgresql://${process.env.DB_MASTER_USERNAME}:${encodedPassword}@${process.env.DB_ENDPOINT}:5432`;
+    const input = {
+      SecretId: dbPasswordSecretName,
+    };
+
+    const command = new GetSecretValueCommand(input);
+
+    const response = await client.send(command);
+
+    if (response.SecretString === undefined) throw Error();
+
+    const password = JSON.parse(response.SecretString).password as string;
+
+    const encodedPassword = encodeURIComponent(password);
+
+    return `postgresql://${process.env.DB_MASTER_USERNAME}:${encodedPassword}@${process.env.DB_ENDPOINT}:5432`;
+  } catch {
+    throw Error("There was an error building the database URL.");
+  }
 };

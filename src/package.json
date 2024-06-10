@@ -8,13 +8,14 @@
     "db:generate": "npx prisma generate",
     "db:migrate:local": "npx prisma migrate dev",
     "db:migrate:deploy": "npx prisma migrate deploy",
-    "log:db:url": "npx ts-node -r dotenv/config ./utils/buildDatabaseURL/index.ts",
+    "log:db:url": "npx ts-node -r dotenv/config ./utils/buildDatabaseURL/logDatabaseURL.ts",
     "transpile": "./node_modules/.bin/ts-node ./ci/scripts/transpile.ts",
     "deploy:lambdas": "./node_modules/.bin/ts-node ./ci/scripts/triggerLambdaDeployments.ts"
   },
   "author": "Harry Verhoef",
   "license": "ISC",
   "devDependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.592.0",
     "@babel/core": "^7.23.9",
     "@babel/preset-env": "^7.23.9",
     "@babel/preset-typescript": "^7.23.3",
