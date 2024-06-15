@@ -1,0 +1,6 @@
+[
+  {
+    "ParameterKey": "AvailabilityZone",
+    "ParameterValue": "${{ AVAILABILITY_ZONE }}"
+  }
+]

@@ -1,0 +1,14 @@
+[
+  {
+    "ParameterKey": "TestVar",
+    "ParameterValue": "According to many, the most reliable curry is a ${{ TEST_VAR_4 }}!"
+  },
+  {
+    "ParameterKey": "TestVar2",
+    "ParameterValue": "But"
+  },
+  {
+    "ParameterKey": "TestVar3",
+    "ParameterValue": "I'm more partial to a ${{ TEST_VAR_5 }} or a ${{ TEST_VAR_6 }}"
+  }
+]

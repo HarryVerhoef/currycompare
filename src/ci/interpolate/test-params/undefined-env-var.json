@@ -1,0 +1,6 @@
+[
+  {
+    "ParameterKey": "TestVar",
+    "ParameterValue": "According to many, the most reliable curry is a ${{ TEST_VAR_0 }}!"
+  }
+]

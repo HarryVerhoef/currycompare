@@ -1,0 +1,30 @@
+name: Deploy S3 (DEV)
+on:
+  push:
+    # branches: [main]
+    paths: 'infra/vpc/**'
+permissions:
+  id-token: write # This is required for requesting the JWT
+jobs:
+  DeployDevS3:
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - name: Clone the repo
+        uses: actions/checkout@v4
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+      - name: Interpolate stack parameters
+        run: npm run ci:interpolate
+        env:
+          AVAILABILITY_ZONE: ${{ secrets.VPC_AVAILABILITY_ZONE }}
+      - name: Deploy stack
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
+        with:
+          name: DevVPC
+          template: ${{ github.workspace }}/infra/vpc/template.yml
+          parameter-overrides: file://${{ github.workspace }}/infra/vpc/parameters/dev.json
+        
