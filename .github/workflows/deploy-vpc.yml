@@ -1,4 +1,4 @@
-name: Deploy S3 (DEV)
+name: Deploy VPC (DEV)
 on:
   push:
     # branches: [main]
@@ -6,7 +6,7 @@ on:
 permissions:
   id-token: write # This is required for requesting the JWT
 jobs:
-  DeployDevS3:
+  DeployDevVPC:
     runs-on: ubuntu-latest
     environment: dev
     steps:
@@ -24,7 +24,7 @@ jobs:
       - name: Interpolate stack parameters
         run: |
           cd src
-          npm run ci:interpolate ../infra/vpc/parameters/dev.json
+          npm run ci:interpolate ${{ github.workspace }}/infra/vpc/parameters/dev.json
         env:
           AVAILABILITY_ZONE: ${{ secrets.VPC_AVAILABILITY_ZONE }}
       - name: Deploy stack
