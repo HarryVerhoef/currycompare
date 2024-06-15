@@ -17,8 +17,14 @@ jobs:
         with:
           role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
           aws-region: ${{ vars.AWS_REGION }}
+      - name: Install Dependencies
+        run: |
+          cd src
+          npm install
       - name: Interpolate stack parameters
-        run: npm run ci:interpolate
+        run: |
+          cd src
+          npm run ci:interpolate ../infra/vpc/parameters/dev.json
         env:
           AVAILABILITY_ZONE: ${{ secrets.VPC_AVAILABILITY_ZONE }}
       - name: Deploy stack
