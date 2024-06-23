@@ -19,6 +19,13 @@ jobs:
         with:
           role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
           aws-region: ${{ vars.AWS_REGION }}
+      - name: Interpolate CloudFormation params
+        run: |
+          cd ./src
+          npm run ci:interpolate ../infra/lambdas/parameters/dev.json
+        env:
+          DB_PASSWORD_SECRET_NAME: ${{ secrets.DB_PASSWORD_SECRET_ID }}
+          DB_ENDPOINT: ${{ secrets.DB_ENDPOINT }}
       - name: Deploy stack
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:

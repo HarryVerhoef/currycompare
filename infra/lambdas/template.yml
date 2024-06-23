@@ -12,6 +12,12 @@ Parameters:
     Type: String
   ApiArn:
     Type: String
+  DbMasterUsername:
+    Type: String
+  DbPasswordSecretName:
+    Type: String
+  DbEndpoint:
+    Type: String
 
 Resources:
   GetCurryhousesFunction:
@@ -24,6 +30,12 @@ Resources:
       Code:
         S3Bucket: !Ref S3Bucket
         S3Key: !Ref GetCurryhousesS3Key
+      Environment:
+        Variables:
+          DB_MASTER_USERNAME: !Ref DbMasterUsername
+          DB_PASSWORD_SECRET_NAME: !Ref DbPasswordSecretName
+          DB_ENDPOINT: !Ref DbEndpoint
+
       Timeout: 10
       Role:
         Fn::GetAtt: [GetCurryhousesRole, Arn]

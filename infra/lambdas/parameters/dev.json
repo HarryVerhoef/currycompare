@@ -18,5 +18,17 @@
   {
     "ParameterKey": "ApiArn",
     "ParameterValue": "arn:aws:execute-api:eu-west-2:637423366782:2v4t7lvpyd/*/*/curryhouses"
+  },
+  {
+    "ParameterKey": "DbMasterUsername",
+    "ParameterValue": "currycompare_master_db_user_dev"
+  },
+  {
+    "ParameterKey": "DbPasswordSecretName",
+    "ParameterValue": "${{ DB_PASSWORD_SECRET_NAME }}"
+  },
+  {
+    "ParameterKey": "DbEndpoint",
+    "ParameterValue": "${{ DB_ENDPOINT }}"
   }
 ]
