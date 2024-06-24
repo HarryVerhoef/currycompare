@@ -26,7 +26,8 @@ jobs:
           cd src
           npm run ci:interpolate ${{ github.workspace }}/infra/vpc/parameters/dev.json
         env:
-          AVAILABILITY_ZONE: ${{ secrets.VPC_AVAILABILITY_ZONE }}
+          PRIMARY_AVAILABILITY_ZONE: ${{ secrets.PRIMARY_AVAILABILITY_ZONE }}
+          SECONDARY_AVAILABILITY_ZONE: ${{ secrets.SECONDARY_AVAILABILITY_ZONE }}
       - name: Deploy stack
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:

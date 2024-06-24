@@ -10,5 +10,13 @@
   {
     "ParameterKey": "AllocatedStorage",
     "ParameterValue": "5"
+  },
+  {
+    "ParameterKey": "RDSSubnet1ID",
+    "ParameterValue": "${{ RDS_SUBNET_1_ID }}"
+  },
+  {
+    "ParameterKey": "RDSSubnet2ID",
+    "ParameterValue": "${{ RDS_SUBNET_2_ID }}"
   }
 ]

@@ -18,6 +18,10 @@ Parameters:
     Type: String
   DbEndpoint:
     Type: String
+  SubnetId:
+    Type: String
+  SecurityGroupId:
+    Type: String
 
 Resources:
   GetCurryhousesFunction:
@@ -35,10 +39,14 @@ Resources:
           DB_MASTER_USERNAME: !Ref DbMasterUsername
           DB_PASSWORD_SECRET_NAME: !Ref DbPasswordSecretName
           DB_ENDPOINT: !Ref DbEndpoint
-
       Timeout: 10
       Role:
         Fn::GetAtt: [GetCurryhousesRole, Arn]
+      VpcConfig:
+        SubnetIds:
+          - !Ref SubnetId
+        SecurityGroupIds:
+          - !Ref SecurityGroupId
   
   GetCurryhousesRole:
     Type: AWS::IAM::Role

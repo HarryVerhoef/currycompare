@@ -8,6 +8,12 @@ Parameters:
     Type: String
   AllocatedStorage:
     Type: String
+  SubnetGroupName:
+    Type: String
+  RDSSubnet1ID:
+    Type: String
+  RDSSubnet2ID:
+    Type: String
   
 Resources:
   DatabaseInstance:
@@ -19,4 +25,14 @@ Resources:
       MasterUsername: !Ref MasterUsername
       ManageMasterUserPassword: true
       AllocatedStorage: !Ref AllocatedStorage
+      MultiAZ: true
+
+  SubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupName: !Ref SubnetGroupName
+      DBSubnetGroupDescription: Group of subnets used for database instances
+      SubnetIds:
+        - !Ref RDSSubnet1ID
+        - !Ref RDSSubnet2ID
       

@@ -1,7 +1,10 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Parameters:
-  AvailabilityZone:
+  PrimaryAvailabilityZone:
     Type: String
+  SecondaryAvailabilityZone:
+    Type: String
+
 Resources:
   VPC:
     Type: AWS::EC2::VPC
@@ -9,32 +12,54 @@ Resources:
       CidrBlock: 10.0.0.0/16
   
   # Subnets
-  Subnet:
+  LambdaSubnet:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref VPC
       CidrBlock: 10.0.1.0/24
-      AvailabilityZone: !Ref AvailabilityZone
+      AvailabilityZone: !Ref PrimaryAvailabilityZone
 
+  RDSSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.2.0/24
+      AvailabilityZone: !Ref PrimaryAvailabilityZone
+
+  RDSSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.3.0/24
+      AvailabilityZone: !Ref SecondaryAvailabilityZone
+  
   RDSSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Allow access to RDS
       VpcId: !Ref VPC
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: 5432
-          ToPort: 5432
-          CidrIp: 0.0.0.0/0 # Adjust this as needed for security
+
+  RDSSecurityGroupIngress:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      IpProtocol: tcp
+      FromPort: 5432
+      ToPort: 5432
+      SourceSecurityGroupId: !GetAtt LambdaSecurityGroup.GroupId
+      GroupId: !GetAtt RDSSecurityGroup.GroupId
 
   # Security Group for Lambda
   LambdaSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: Allow Lambda to access RDS
+      GroupDescription: Security group composed of Lambdas
       VpcId: !Ref VPC
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: 5432
-          ToPort: 5432
-          SourceSecurityGroupId: !Ref RDSSecurityGroup
+
+  LambdaSecurityGroupEgress:
+    Type: AWS::EC2::SecurityGroupEgress
+    Properties:
+      IpProtocol: tcp
+      FromPort: 5432
+      ToPort: 5432
+      DestinationSecurityGroupId: !GetAtt RDSSecurityGroup.GroupId
+      GroupId: !GetAtt LambdaSecurityGroup.GroupId

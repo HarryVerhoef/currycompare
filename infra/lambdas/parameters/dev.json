@@ -30,5 +30,13 @@
   {
     "ParameterKey": "DbEndpoint",
     "ParameterValue": "${{ DB_ENDPOINT }}"
+  },
+  {
+    "ParameterKey": "SubnetId",
+    "ParameterValue": "${{ SUBNET_ID }}"
+  },
+  {
+    "ParameterKey": "SecurityGroupId",
+    "ParameterValue": "${{ SECURITY_GROUP_ID }}"
   }
 ]
