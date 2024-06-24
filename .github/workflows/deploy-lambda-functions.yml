@@ -22,6 +22,7 @@ jobs:
       - name: Interpolate CloudFormation params
         run: |
           cd ./src
+          npm install
           npm run ci:interpolate ${{ github.workspace }}/infra/lambdas/parameters/dev.json
         env:
           DB_PASSWORD_SECRET_NAME: ${{ secrets.DB_PASSWORD_SECRET_ID }}

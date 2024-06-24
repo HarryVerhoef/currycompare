@@ -33,10 +33,10 @@
   },
   {
     "ParameterKey": "SubnetId",
-    "ParameterValue": "${{ SUBNET_ID }}"
+    "ParameterValue": "${{ LAMBDA_SUBNET_ID }}"
   },
   {
     "ParameterKey": "SecurityGroupId",
-    "ParameterValue": "${{ SECURITY_GROUP_ID }}"
+    "ParameterValue": "${{ LAMBDA_SECURITY_GROUP_ID }}"
   }
 ]
