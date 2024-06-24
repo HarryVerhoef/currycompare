@@ -27,8 +27,8 @@ jobs:
         env:
           DB_PASSWORD_SECRET_NAME: ${{ secrets.DB_PASSWORD_SECRET_ID }}
           DB_ENDPOINT: ${{ secrets.DB_ENDPOINT }}
-          SUBNET_ID: ${{ secrets.LAMBDA_SUBNET_ID }}
-          SECURITY_GROUP_ID: ${{ secrets.LAMBDA_SECURITY_GROUP_ID }}
+          LAMBDA_SUBNET_ID: ${{ secrets.LAMBDA_SUBNET_ID }}
+          LAMBDA_SECURITY_GROUP_ID: ${{ secrets.LAMBDA_SECURITY_GROUP_ID }}
       - name: Deploy stack
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
