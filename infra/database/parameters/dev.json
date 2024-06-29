@@ -12,6 +12,10 @@
     "ParameterValue": "5"
   },
   {
+    "ParameterKey": "SubnetGroupName",
+    "ParameterValue": "DevRDSSubnetGroup"
+  },
+  {
     "ParameterKey": "RDSSubnet1ID",
     "ParameterValue": "${{ RDS_SUBNET_ID_1 }}"
   },
