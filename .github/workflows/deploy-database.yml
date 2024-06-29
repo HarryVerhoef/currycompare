@@ -17,6 +17,14 @@ jobs:
         with:
           role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
           aws-region: ${{ vars.AWS_REGION }}
+      - name: Interpolate stack parameters
+        run: |
+          cd src
+          npm install
+          npm run ci:interpolate ${{ github.workspace }}/infra/database/parameters/dev.json
+        env:
+          RDS_SUBNET_ID_1: ${{ secrets.RDS_SUBNET_ID_1 }}
+          RDS_SUBNET_ID_2: ${{ secrets.RDS_SUBNET_ID_2 }}
       - name: Deploy stack
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:

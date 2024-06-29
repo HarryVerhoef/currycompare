@@ -13,10 +13,10 @@
   },
   {
     "ParameterKey": "RDSSubnet1ID",
-    "ParameterValue": "${{ RDS_SUBNET_1_ID }}"
+    "ParameterValue": "${{ RDS_SUBNET_ID_1 }}"
   },
   {
     "ParameterKey": "RDSSubnet2ID",
-    "ParameterValue": "${{ RDS_SUBNET_2_ID }}"
+    "ParameterValue": "${{ RDS_SUBNET_ID_2 }}"
   }
 ]
