@@ -26,6 +26,7 @@ Resources:
       ManageMasterUserPassword: true
       AllocatedStorage: !Ref AllocatedStorage
       MultiAZ: true
+      DBSubnetGroupName: !Ref SubnetGroup
 
   SubnetGroup:
     Type: AWS::RDS::DBSubnetGroup
