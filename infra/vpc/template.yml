@@ -72,5 +72,5 @@ Resources:
       VpcEndpointType: Interface
       SubnetIds:
         - !Ref LambdaSubnet
-      SecurityGroupId:
+      SecurityGroupIds:
         - !GetAtt LambdaSecurityGroup.GroupId
