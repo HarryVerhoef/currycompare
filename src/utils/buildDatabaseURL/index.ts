@@ -8,6 +8,8 @@ export const buildDatabaseURL = async ({
   dbPasswordSecretName = process.env.DB_PASSWORD_SECRET_NAME,
   endpoint = process.env.DB_ENDPOINT,
 }): Promise<string> => {
+  console.log("Building database URL...");
+
   if (username === undefined) {
     throw Error("Environment variable 'DB_MASTER_USERNAME' not set");
   }
@@ -21,6 +23,8 @@ export const buildDatabaseURL = async ({
   }
 
   try {
+    console.log("Instantiating SecretsManagerClient...");
+
     const client = new SecretsManagerClient();
 
     const input = {
@@ -29,7 +33,10 @@ export const buildDatabaseURL = async ({
 
     const command = new GetSecretValueCommand(input);
 
+    console.log("Sending GetSecretValue command...");
     const response = await client.send(command);
+
+    console.log("Got secret value response:", response);
 
     if (response.SecretString === undefined) throw Error();
 
