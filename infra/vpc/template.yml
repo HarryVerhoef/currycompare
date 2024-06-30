@@ -63,3 +63,14 @@ Resources:
       ToPort: 5432
       DestinationSecurityGroupId: !GetAtt RDSSecurityGroup.GroupId
       GroupId: !GetAtt LambdaSecurityGroup.GroupId
+    
+  SecretManagerEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      ServiceName: !Sub com.amazonaws.${AWS::Region}.secretsmanager
+      VpcId: !Ref VPC
+      VpcEndpointType: Interface
+      SubnetIds:
+        - !Ref LambdaSubnet
+      SecurityGroupId:
+        - !GetAtt LambdaSecurityGroup.GroupId
