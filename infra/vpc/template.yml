@@ -67,7 +67,9 @@ Resources:
   LambdaSecurityGroupEgress2:
     Type: AWS::EC2::SecurityGroupEgress
     Properties:
-      IpProtocol: 443
+      IpProtocol: http
+      FromPort: 443
+      ToPort: 443
       CidrIp: 0.0.0.0/0  # Allows all outbound traffic
       GroupId: !GetAtt LambdaSecurityGroup.GroupId
     
