@@ -7,6 +7,12 @@ export const buildDatabaseURL = async ({
   username = process.env.DB_MASTER_USERNAME,
   dbPasswordSecretName = process.env.DB_PASSWORD_SECRET_NAME,
   endpoint = process.env.DB_ENDPOINT,
+  awsRegion = process.env.AWS_REGION,
+}: {
+  username?: string;
+  dbPasswordSecretName?: string;
+  endpoint?: string;
+  awsRegion?: string;
 }): Promise<string> => {
   console.log("Building database URL...");
 
@@ -22,10 +28,16 @@ export const buildDatabaseURL = async ({
     throw Error("Environment variable 'DB_ENDPOINT' not set");
   }
 
+  if (awsRegion === undefined) {
+    throw Error("Environment variable 'AWS_REGION' not set");
+  }
+
   try {
     console.log("Instantiating SecretsManagerClient...");
 
-    const client = new SecretsManagerClient();
+    const client = new SecretsManagerClient({
+      region: awsRegion,
+    });
 
     const input = {
       SecretId: dbPasswordSecretName,
@@ -47,6 +59,6 @@ export const buildDatabaseURL = async ({
     return `postgresql://${process.env.DB_MASTER_USERNAME}:${encodedPassword}@${process.env.DB_ENDPOINT}:5432`;
   } catch (e) {
     console.error(e); // TEMP
-    throw Error(`There was an error building the database URL: ${e}`);
+    throw Error(`There was an error building the database URL`);
   }
 };
