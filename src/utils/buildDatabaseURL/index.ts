@@ -40,6 +40,6 @@ export const buildDatabaseURL = async ({
     return `postgresql://${process.env.DB_MASTER_USERNAME}:${encodedPassword}@${process.env.DB_ENDPOINT}:5432`;
   } catch (e) {
     console.error(e); // TEMP
-    throw Error("There was an error building the database URL.");
+    throw Error(`There was an error building the database URL: ${e}`);
   }
 };
