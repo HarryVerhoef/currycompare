@@ -39,7 +39,7 @@ Resources:
           DB_MASTER_USERNAME: !Ref DbMasterUsername
           DB_PASSWORD_SECRET_NAME: !Ref DbPasswordSecretName
           DB_ENDPOINT: !Ref DbEndpoint
-      Timeout: 30
+      Timeout: 60
       Role:
         Fn::GetAtt: [GetCurryhousesRole, Arn]
       VpcConfig:
