@@ -63,6 +63,13 @@ Resources:
       ToPort: 5432
       DestinationSecurityGroupId: !GetAtt RDSSecurityGroup.GroupId
       GroupId: !GetAtt LambdaSecurityGroup.GroupId
+
+  LambdaSecurityGroupEgress2:
+    Type: AWS::EC2::SecurityGroupEgress
+    Properties:
+      IpProtocol: 443
+      CidrIp: 0.0.0.0/0  # Allows all outbound traffic
+      GroupId: !GetAtt LambdaSecurityGroup.GroupId
     
   SecretManagerEndpoint:
     Type: AWS::EC2::VPCEndpoint
