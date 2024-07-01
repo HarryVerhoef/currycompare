@@ -7,6 +7,11 @@ on:
         type: choice
         options:
           - curryhouses/get
+      lambdaName:
+        required: true
+        type: choice
+        options:
+          - GetCurryhouses
 
 permissions:
   id-token: write # This is required for requesting the JWT
@@ -32,13 +37,20 @@ jobs:
       - name: Install packages
         run: cd src && npm install
       - name: Transpile lambdas
-        run: cd src && npm run transpile ./lambdas/${{ inputs.lambdaKey }}/index.ts ./dist/index.js
+        run: |
+          cd src
+          mkdir -p ./dist/prisma/generated
+          npm run db:generate
+          cp ./prisma/generated/libquery_engine-rhel-openssl-3.0.x.so.node ./dist/prisma/generated/libquery_engine-rhel-openssl-3.0.x.so.node
+          npm run transpile ./lambdas/${{ inputs.lambdaKey }}/index.ts ./dist/index.js
       - name: Zip lambda
         run: |
-          cd ./dist
+          cd ./src/dist
           zip -r ./index.zip .
-          zip -d index.zip index.test.js
       - name: Write zipped lambda to S3
         run: |
           cd ./src/dist
           aws s3 cp index.zip s3://dev-currycompare-api-lambdas/${{ inputs.lambdaKey }}/index.zip
+      - name: Update lambda code
+        run: aws lambda update-function-code --function-name Dev${{ inputs.lambdaName }} --s3-bucket dev-currycompare-api-lambdas --s3-key ${{ inputs.lambdaKey }}/index.zip
+

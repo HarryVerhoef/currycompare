@@ -1,7 +1,7 @@
 name: Deploy Lambda Functions (DEV)
 on:
   push:
-    branches: [main]
+    # branches: [main]
     paths: 'infra/lambdas/**'
 
 permissions:
@@ -19,6 +19,16 @@ jobs:
         with:
           role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
           aws-region: ${{ vars.AWS_REGION }}
+      - name: Interpolate CloudFormation params
+        run: |
+          cd ./src
+          npm install
+          npm run ci:interpolate ${{ github.workspace }}/infra/lambdas/parameters/dev.json
+        env:
+          DB_PASSWORD_SECRET_NAME: ${{ secrets.DB_PASSWORD_SECRET_ID }}
+          DB_ENDPOINT: ${{ secrets.DB_ENDPOINT }}
+          LAMBDA_SUBNET_ID: ${{ secrets.LAMBDA_SUBNET_ID }}
+          LAMBDA_SECURITY_GROUP_ID: ${{ secrets.LAMBDA_SECURITY_GROUP_ID }}
       - name: Deploy stack
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:

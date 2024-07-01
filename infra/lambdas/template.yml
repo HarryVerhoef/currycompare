@@ -6,23 +6,47 @@ Parameters:
     Type: String
   S3Bucket:
     Type: String
+  GetCurryhousesFunctionName:
+    Type: String
   GetCurryhousesS3Key:
     Type: String
   ApiArn:
+    Type: String
+  DbMasterUsername:
+    Type: String
+  DbPasswordSecretName:
+    Type: String
+  DbEndpoint:
+    Type: String
+  SubnetId:
+    Type: String
+  SecurityGroupId:
     Type: String
 
 Resources:
   GetCurryhousesFunction:
     Type: AWS::Lambda::Function
     Properties:
+      FunctionName: !Ref GetCurryhousesFunctionName
       Runtime: !Ref Runtime
       PackageType: Zip
       Handler: index.handler
       Code:
         S3Bucket: !Ref S3Bucket
         S3Key: !Ref GetCurryhousesS3Key
+      Environment:
+        Variables:
+          DB_MASTER_USERNAME: !Ref DbMasterUsername
+          DB_PASSWORD_SECRET_NAME: !Ref DbPasswordSecretName
+          DB_ENDPOINT: !Ref DbEndpoint
+      Timeout: 60
       Role:
         Fn::GetAtt: [GetCurryhousesRole, Arn]
+      VpcConfig:
+        SubnetIds:
+          - !Ref SubnetId
+        SecurityGroupIds:
+          - !Ref SecurityGroupId
   
   GetCurryhousesRole:
     Type: AWS::IAM::Role
@@ -45,6 +69,10 @@ Resources:
                   - 'logs:CreateLogGroup'
                   - 'logs:CreateLogStream'
                   - 'logs:PutLogEvents'
+                  - 'secretsmanager:GetSecretValue'
+                  - 'ec2:DescribeNetworkInterfaces'
+                  - 'ec2:CreateNetworkInterface'
+                  - 'ec2:DeleteNetworkInterface'
                 Resource: '*'
 
   GetCurryhousesPermission:

@@ -7,7 +7,9 @@ Client <--> api[API Gateway]
 subgraph AWS
 api <--> Cognito
 api <--> Lambda
-Lambda <--> aurora[(Aurora)]
+subgraph VPC
+Lambda <--> RDS[(RDS)]
+end
 end
 ```
 
