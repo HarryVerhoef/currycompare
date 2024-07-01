@@ -54,7 +54,7 @@ Resources:
       SourceSecurityGroupId: !GetAtt LambdaSecurityGroup.GroupId
       GroupId: !GetAtt RDSSecurityGroup.GroupId
 
-  # Security Group for Lambda
+  # Security Group for Lambda.
   LambdaSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
