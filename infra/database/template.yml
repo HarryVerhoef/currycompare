@@ -14,6 +14,8 @@ Parameters:
     Type: String
   RDSSubnet2ID:
     Type: String
+  RDSSecurityGroupId:
+    Type: String
   
 Resources:
   DatabaseInstance:
@@ -28,6 +30,8 @@ Resources:
       MultiAZ: true
       DBSubnetGroupName: !Ref SubnetGroup
       PubliclyAccessible: true
+      VPCSecurityGroups:
+        - !Ref RDSSecurityGroupId
 
   SubnetGroup:
     Type: AWS::RDS::DBSubnetGroup

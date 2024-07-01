@@ -25,6 +25,7 @@ jobs:
         env:
           RDS_SUBNET_ID_1: ${{ secrets.RDS_SUBNET_ID_1 }}
           RDS_SUBNET_ID_2: ${{ secrets.RDS_SUBNET_ID_2 }}
+          RDS_SECURITY_GROUP_ID: ${{ secrets.RDS_SECURITY_GROUP_ID }}
       - name: Deploy stack
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
