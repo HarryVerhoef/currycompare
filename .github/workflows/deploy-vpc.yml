@@ -27,6 +27,7 @@ jobs:
         env:
           PRIMARY_AVAILABILITY_ZONE: ${{ secrets.PRIMARY_AVAILABILITY_ZONE }}
           SECONDARY_AVAILABILITY_ZONE: ${{ secrets.SECONDARY_AVAILABILITY_ZONE }}
+          HARRY_IP: ${{ secrets.HARRY_IP }}
       - name: Deploy stack
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
