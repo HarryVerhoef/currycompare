@@ -46,7 +46,7 @@ export const buildDatabaseURL = async ({
     const command = new GetSecretValueCommand(input);
 
     console.log("Sending GetSecretValue command...");
-    const response = await client.send(command);
+    const response = await client.send(command, {asd: "ad"});
 
     console.log("Got secret value response:", response);
 

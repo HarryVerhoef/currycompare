@@ -57,6 +57,15 @@ Resources:
       GroupDescription: Security group composed of Lambdas
       VpcId: !Ref VPC
 
+  LambdaSecurityGroupIngress:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      IpProtocol: tcp
+      FromPort: 443
+      ToPort: 443
+      CidrIp: 0.0.0.0/0  # Allows all outbound traffic
+      GroupId: !GetAtt LambdaSecurityGroup.GroupId
+
   LambdaSecurityGroupEgress:
     Type: AWS::EC2::SecurityGroupEgress
     Properties:
