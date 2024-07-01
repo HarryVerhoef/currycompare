@@ -27,6 +27,7 @@ Resources:
       AllocatedStorage: !Ref AllocatedStorage
       MultiAZ: true
       DBSubnetGroupName: !Ref SubnetGroup
+      PubliclyAccessible: true
 
   SubnetGroup:
     Type: AWS::RDS::DBSubnetGroup

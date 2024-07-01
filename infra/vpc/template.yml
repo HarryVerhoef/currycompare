@@ -4,6 +4,8 @@ Parameters:
     Type: String
   SecondaryAvailabilityZone:
     Type: String
+  HarryIp:
+    Type: String
 
 Resources:
   VPC:
@@ -27,6 +29,7 @@ Resources:
       VpcId: !Ref VPC
       CidrBlock: 10.0.2.0/24
       AvailabilityZone: !Ref PrimaryAvailabilityZone
+      MapPublicIpOnLaunch: true
 
   RDSSubnet2:
     Type: AWS::EC2::Subnet
@@ -34,6 +37,7 @@ Resources:
       VpcId: !Ref VPC
       CidrBlock: 10.0.3.0/24
       AvailabilityZone: !Ref SecondaryAvailabilityZone
+      MapPublicIpOnLaunch: true
   
   RDSSecurityGroup:
     Type: AWS::EC2::SecurityGroup
@@ -41,7 +45,7 @@ Resources:
       GroupDescription: Allow access to RDS
       VpcId: !Ref VPC
 
-  RDSSecurityGroupIngress:
+  RDSSecurityGroupIngress1:
     Type: AWS::EC2::SecurityGroupIngress
     Properties:
       IpProtocol: tcp
@@ -95,3 +99,48 @@ Resources:
         - !Ref LambdaSubnet
       SecurityGroupIds:
         - !GetAtt LambdaSecurityGroup.GroupId
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+  
+  VPCGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref InternetGateway
+
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+
+  PublicRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  SubnetRouteTableAssociation1:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref RDSSubnet1
+      RouteTableId: !Ref PublicRouteTable
+
+  SubnetRouteTableAssociation2:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref RDSSubnet2
+      RouteTableId: !Ref PublicRouteTable
+
+  RDSSecurityGroupIngress2:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      IpProtocol: tcp
+      FromPort: 5432
+      ToPort: 5432
+      CidrIp: !Join
+        - ''
+        - - !Ref HarryIp
+          - /32
+      GroupId: !GetAtt RDSSecurityGroup.GroupId

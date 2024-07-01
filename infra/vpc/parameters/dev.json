@@ -6,5 +6,9 @@
   {
     "ParameterKey": "SecondaryAvailabilityZone",
     "ParameterValue": "${{ SECONDARY_AVAILABILITY_ZONE }}"
+  },
+  {
+    "ParameterKey": "HarryIp",
+    "ParameterValue": "${{ HARRY_IP }}"
   }
 ]
