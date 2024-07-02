@@ -35,7 +35,7 @@ export const handler: LambdaHandler = async (event) => {
   // We are using a raw query here because prisma does not support postgis (geospatial queries).
   const curryhouses = await prisma.$queryRaw<Curryhouse[]>`
     SELECT *
-    FROM "Curryhouses"
+    FROM "Curryhouse"
     WHERE ST_DWithin(
       location,
       ST_SetSRID(ST_MakePoint(${lng}, ${lat}), 4326),
