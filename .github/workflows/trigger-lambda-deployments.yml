@@ -14,7 +14,13 @@ jobs:
       - name: Clone the repo
         uses: actions/checkout@v4
       - name: Install packages
-        run: cd src && npm install
+        run: |
+          cd src
+          npm install
+      - name: Run Unit Tests
+        run: |
+          cd src
+          npm run test
       - name: Trigger lambda deployments
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
