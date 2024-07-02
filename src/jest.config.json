@@ -1,0 +1,8 @@
+{
+  "clearMocks": true,
+  "preset": "ts-jest",
+  "testEnvironment": "node",
+  "verbose": true,
+  "setupFilesAfterEnv": ["./utils/testing/singleton.ts"],
+  "testRegex": ".test.ts$"
+}

@@ -13,7 +13,7 @@ export const buildDatabaseURL = async ({
   dbPasswordSecretName?: string;
   endpoint?: string;
   awsRegion?: string;
-}): Promise<string> => {
+} = {}): Promise<string> => {
   console.log("Building database URL...");
 
   if (username === undefined) {
@@ -53,7 +53,7 @@ export const buildDatabaseURL = async ({
 
     const encodedPassword = encodeURIComponent(password);
 
-    return `postgresql://${process.env.DB_MASTER_USERNAME}:${encodedPassword}@${process.env.DB_ENDPOINT}:5432`;
+    return `postgresql://${username}:${encodedPassword}@${endpoint}:5432`;
   } catch (e) {
     throw Error(`There was an error building the database URL`);
   }

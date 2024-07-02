@@ -32,7 +32,7 @@ describe("GET /curryhouses", () => {
 
     expect(statusCode).toBe(400);
     expect(JSON.parse(body ?? "{}").errorMsg).toBe(
-      "There was an error parsing: undefined",
+      "There was an error parsing the request",
     );
   });
 
@@ -48,7 +48,7 @@ describe("GET /curryhouses", () => {
 
     expect(statusCode).toBe(400);
     expect(JSON.parse(body ?? "{}").errorMsg).toBe(
-      "There was an error parsing: undefined",
+      "There was an error parsing the request",
     );
   });
 
@@ -64,7 +64,7 @@ describe("GET /curryhouses", () => {
 
     expect(statusCode).toBe(400);
     expect(JSON.parse(body ?? "{}").errorMsg).toBe(
-      "There was an error parsing: undefined",
+      "There was an error parsing the request",
     );
   });
 
@@ -81,7 +81,7 @@ describe("GET /curryhouses", () => {
 
     expect(statusCode).toBe(400);
     expect(JSON.parse(body ?? "{}").errorMsg).toBe(
-      "There was an error parsing ten: cannot parse ten to a number",
+      "There was an error parsing the request: cannot parse ten to a number",
     );
   });
 
@@ -98,7 +98,7 @@ describe("GET /curryhouses", () => {
 
     expect(statusCode).toBe(400);
     expect(JSON.parse(body ?? "{}").errorMsg).toBe(
-      "There was an error parsing ten: cannot parse ten to a number",
+      "There was an error parsing the request: cannot parse ten to a number",
     );
   });
 
@@ -115,7 +115,7 @@ describe("GET /curryhouses", () => {
 
     expect(statusCode).toBe(400);
     expect(JSON.parse(body ?? "{}").errorMsg).toBe(
-      "There was an error parsing: five",
+      "There was an error parsing the request",
     );
   });
 });
