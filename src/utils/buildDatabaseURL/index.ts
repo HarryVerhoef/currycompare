@@ -45,10 +45,7 @@ export const buildDatabaseURL = async ({
 
     const command = new GetSecretValueCommand(input);
 
-    console.log("Sending GetSecretValue command...");
-    const response = await client.send(command, {asd: "ad"});
-
-    console.log("Got secret value response:", response);
+    const response = await client.send(command);
 
     if (response.SecretString === undefined) throw Error();
 
@@ -58,7 +55,6 @@ export const buildDatabaseURL = async ({
 
     return `postgresql://${process.env.DB_MASTER_USERNAME}:${encodedPassword}@${process.env.DB_ENDPOINT}:5432`;
   } catch (e) {
-    console.error(e); // TEMP
     throw Error(`There was an error building the database URL`);
   }
 };
