@@ -1,7 +1,7 @@
 name: Linter
 on: push
 jobs:
-  RunUnitTests:
+  CheckFormatting:
     runs-on: ubuntu-latest
     steps:
       - name: Clone the repo
