@@ -25,7 +25,7 @@ export const handler: LambdaHandler = async (event) => {
     `Finding all curryhouses with latitude=${lat}, longitude=${lng}, radius=${rad}...`,
   );
 
-  const dbUrl = await buildDatabaseURL({});
+  const dbUrl = await buildDatabaseURL();
 
   console.log(`Database URL: ${dbUrl}`);
 
@@ -41,6 +41,13 @@ export const handler: LambdaHandler = async (event) => {
       ST_SetSRID(ST_MakePoint(${lng}, ${lat}), 4326),
       ${convertSearchRadiusToMetres(rad)}
     );`;
+
+  if (curryhouses.length > 0) {
+    console.log(`Found ${curryhouses.length} curryhouses:`);
+    console.log(curryhouses.map((curryhouse) => curryhouse.title).join(", "));
+  } else {
+    console.log("Found no curryhouses within the search area.");
+  }
 
   return {
     statusCode: 200,
