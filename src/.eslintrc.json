@@ -15,6 +15,11 @@
         "react",
         "jest"
     ],
+    "ignorePatterns": [
+        "/node_modules/**",
+        "/dist/**",
+        "/prisma/generated/**"
+    ],
     "rules": {
     }
 }
