@@ -10,5 +10,21 @@
   {
     "ParameterKey": "AllocatedStorage",
     "ParameterValue": "5"
+  },
+  {
+    "ParameterKey": "SubnetGroupName",
+    "ParameterValue": "DevRDSSubnetGroup"
+  },
+  {
+    "ParameterKey": "RDSSubnet1ID",
+    "ParameterValue": "${{ RDS_SUBNET_ID_1 }}"
+  },
+  {
+    "ParameterKey": "RDSSubnet2ID",
+    "ParameterValue": "${{ RDS_SUBNET_ID_2 }}"
+  },
+  {
+    "ParameterKey": "RDSSecurityGroupId",
+    "ParameterValue": "${{ RDS_SECURITY_GROUP_ID }}"
   }
 ]

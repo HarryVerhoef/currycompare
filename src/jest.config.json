@@ -1,0 +1,7 @@
+{
+  "clearMocks": true,
+  "preset": "ts-jest",
+  "testEnvironment": "node",
+  "verbose": true,
+  "testRegex": ".test.ts$"
+}

@@ -1,7 +1,6 @@
 name: Deploy API Gateway (DEV)
 on:
   push:
-    # branches: [main]
     paths: 'infra/api-gateway/**'
 permissions:
   id-token: write # This is required for requesting the JWT

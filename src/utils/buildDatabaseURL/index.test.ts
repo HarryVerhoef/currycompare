@@ -1,83 +1,90 @@
+import {
+  GetSecretValueCommand,
+  SecretsManagerClient,
+} from "@aws-sdk/client-secrets-manager";
 import { buildDatabaseURL } from ".";
+import { mockClient } from "aws-sdk-client-mock";
 
 describe("buildDatabaseURL", () => {
-  const originalEnv = process.env;
+  const testUser = "testUser";
+  const testPass = "01@$yooo$23";
+  const testPassSecretName = "testPassSecretName";
+  const testEndpoint = "testEndpoint";
+  const testRegion = "global";
 
-  // Setup test environment
-  beforeEach(() => {
-    process.env.DB_MASTER_USERNAME = "testUser";
-    process.env.DB_MASTER_PASSWORD = "testPass";
-    process.env.DB_ENDPOINT = "testEndpoint";
+  const secretsManagerMock = mockClient(SecretsManagerClient);
+
+  secretsManagerMock.on(GetSecretValueCommand).resolves({
+    SecretString: JSON.stringify({
+      password: testPass,
+    }),
   });
 
-  // Reset environment
-  afterEach(() => {
-    delete process.env.DB_MASTER_USERNAME;
-    delete process.env.DB_MASTER_PASSWORD;
-    delete process.env.DB_ENDPOINT;
+  it("should throw an error if DB_MASTER_USERNAME is not set", async () => {
+    await expect(
+      buildDatabaseURL({
+        username: undefined,
+        dbPasswordSecretName: testPassSecretName,
+        endpoint: testEndpoint,
+        awsRegion: testRegion,
+      }),
+    ).rejects.toThrow("Environment variable 'DB_MASTER_USERNAME' not set");
   });
 
-  afterAll(() => {
-    process.env = originalEnv;
+  it("should throw an error if DB_PASSWORD_SECRET_NAME is not set", async () => {
+    await expect(
+      buildDatabaseURL({
+        username: testUser,
+        dbPasswordSecretName: undefined,
+        endpoint: testEndpoint,
+        awsRegion: testRegion,
+      }),
+    ).rejects.toThrow("Environment variable 'DB_PASSWORD_SECRET_NAME' not set");
   });
 
-  it("should throw an error if DB_MASTER_USERNAME is not provided", () => {
-    delete process.env.DB_MASTER_USERNAME;
-
-    expect(() => {
-      buildDatabaseURL();
-    }).toThrow("Environment variable 'DB_MASTER_USERNAME' not set");
+  it("should throw an error if DB_ENDPOINT is not set", async () => {
+    await expect(
+      buildDatabaseURL({
+        username: testUser,
+        dbPasswordSecretName: testPassSecretName,
+        endpoint: undefined,
+        awsRegion: testRegion,
+      }),
+    ).rejects.toThrow("Environment variable 'DB_ENDPOINT' not set");
   });
 
-  it("should throw an error if DB_MASTER_PASSWORD is not set", () => {
-    delete process.env.DB_MASTER_PASSWORD;
-
-    expect(() => {
-      buildDatabaseURL();
-    }).toThrow("Environment variable 'DB_MASTER_PASSWORD' not set");
+  it("should throw an error if AWS_REGION is not set", async () => {
+    await expect(
+      buildDatabaseURL({
+        username: testUser,
+        dbPasswordSecretName: testPassSecretName,
+        endpoint: testEndpoint,
+        awsRegion: undefined,
+      }),
+    ).rejects.toThrow("Environment variable 'AWS_REGION' not set");
   });
 
-  it("should throw an error if DB_ENDPOINT is not set", () => {
-    delete process.env.DB_ENDPOINT;
-
-    expect(() => {
-      buildDatabaseURL();
-    }).toThrow("Environment variable 'DB_ENDPOINT' not set");
+  it("should not throw an error if the required environment variables are set", async () => {
+    await expect(
+      buildDatabaseURL({
+        username: testUser,
+        dbPasswordSecretName: testPassSecretName,
+        endpoint: testEndpoint,
+        awsRegion: testRegion,
+      }),
+    ).resolves.not.toThrow();
   });
 
-  it("should not throw an error if the required environment variables are set", () => {
-    expect(() => {
-      buildDatabaseURL();
-    }).not.toThrow();
-  });
-
-  it("should return the correct db url given the test environment variables", () => {
-    expect(buildDatabaseURL()).toBe(
-      "postgresql://testUser:testPass@testEndpoint",
-    );
-  });
-
-  it("should encode the username", () => {
-    process.env.DB_MASTER_USERNAME = "01@$yooo$23";
-
-    expect(buildDatabaseURL()).toBe(
-      "postgresql://01%40%24yooo%2423:testPass@testEndpoint",
-    );
-  });
-
-  it("should encode the password", () => {
-    process.env.DB_MASTER_PASSWORD = "pa£%sw0rd";
-
-    expect(buildDatabaseURL()).toBe(
-      "postgresql://testUser:pa%C2%A3%25sw0rd@testEndpoint",
-    );
-  });
-
-  it("should encode the endpoint", () => {
-    process.env.DB_ENDPOINT = "https://google.com/abc?asd=%abc:1234";
-
-    expect(buildDatabaseURL()).toBe(
-      "postgresql://testUser:testPass@https%3A%2F%2Fgoogle.com%2Fabc%3Fasd%3D%25abc%3A1234",
+  it("should return the correct db url given the test environment variables", async () => {
+    await expect(
+      buildDatabaseURL({
+        username: testUser,
+        dbPasswordSecretName: testPassSecretName,
+        endpoint: testEndpoint,
+        awsRegion: testRegion,
+      }),
+    ).resolves.toBe(
+      "postgresql://testUser:01%40%24yooo%2423@testEndpoint:5432",
     );
   });
 });

@@ -1,6 +1,7 @@
 import { Octokit } from "octokit";
 import { REPO_NAME, REPO_OWNER } from "../constants";
 import getLambdaKeyFromPath from "../getLambdaKeyFromPath";
+import getLambdaName from "../getLambdaName";
 
 const triggerLambdaDeployments = async (): Promise<void> => {
   if (process.env.GITHUB_TOKEN === undefined)
@@ -51,6 +52,7 @@ const triggerLambdaDeployments = async (): Promise<void> => {
           ref,
           inputs: {
             lambdaKey: key,
+            lambdaName: getLambdaName(key),
           },
         });
       }),

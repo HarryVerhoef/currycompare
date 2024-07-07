@@ -1,12 +1,20 @@
 ---
 AWSTemplateFormatVersion: "2010-09-09"
-Description: Stack encompassing all the resources used by Amazon RDS
+Description: Stack encompassing all the resources used by Amazon RDS.
 Parameters:
   InstanceClass:
     Type: String
   MasterUsername:
     Type: String
   AllocatedStorage:
+    Type: String
+  SubnetGroupName:
+    Type: String
+  RDSSubnet1ID:
+    Type: String
+  RDSSubnet2ID:
+    Type: String
+  RDSSecurityGroupId:
     Type: String
   
 Resources:
@@ -19,4 +27,18 @@ Resources:
       MasterUsername: !Ref MasterUsername
       ManageMasterUserPassword: true
       AllocatedStorage: !Ref AllocatedStorage
+      MultiAZ: true
+      DBSubnetGroupName: !Ref SubnetGroup
+      PubliclyAccessible: true
+      VPCSecurityGroups:
+        - !Ref RDSSecurityGroupId
+
+  SubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupName: !Ref SubnetGroupName
+      DBSubnetGroupDescription: Group of subnets used for database instances
+      SubnetIds:
+        - !Ref RDSSubnet1ID
+        - !Ref RDSSubnet2ID
       
