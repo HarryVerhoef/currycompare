@@ -38,5 +38,9 @@
   {
     "ParameterKey": "SecurityGroupId",
     "ParameterValue": "${{ LAMBDA_SECURITY_GROUP_ID }}"
+  },
+  {
+    "ParameterKey": "CurrycompareEnvironment",
+    "ParameterValue": "dev"
   }
 ]

@@ -22,6 +22,8 @@ Parameters:
     Type: String
   SecurityGroupId:
     Type: String
+  CurrycompareEnvironment:
+    Type: String
 
 Resources:
   GetCurryhousesFunction:
@@ -36,6 +38,7 @@ Resources:
         S3Key: !Ref GetCurryhousesS3Key
       Environment:
         Variables:
+          CURRYCOMPARE_ENVIRONMENT: !Ref CurrycompareEnvironment
           DB_MASTER_USERNAME: !Ref DbMasterUsername
           DB_PASSWORD_SECRET_NAME: !Ref DbPasswordSecretName
           DB_ENDPOINT: !Ref DbEndpoint
