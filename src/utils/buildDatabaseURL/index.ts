@@ -2,6 +2,7 @@ import {
   SecretsManagerClient,
   GetSecretValueCommand,
 } from "@aws-sdk/client-secrets-manager";
+import { isLocal } from "../getEnvironment";
 
 export const buildDatabaseURL = async ({
   username = process.env.DB_MASTER_USERNAME,
@@ -15,6 +16,14 @@ export const buildDatabaseURL = async ({
   awsRegion?: string;
 } = {}): Promise<string> => {
   console.log("Building database URL...");
+
+  if (isLocal()) {
+    if (process.env.DATABASE_URL === undefined) {
+      throw Error("Environment variable 'DATABASE_URL' is not set");
+    }
+
+    return process.env.DATABASE_URL;
+  }
 
   if (username === undefined) {
     throw Error("Environment variable 'DB_MASTER_USERNAME' not set");

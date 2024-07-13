@@ -6,4 +6,30 @@ services:
     volumes:
       - /var/lib/postgresql/data
     environment:
-      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      retries: 5
+      timeout: 10s
+  backend:
+    build:
+      context: .
+      args:
+        DATABASE_URL: ${DATABASE_URL}
+    command: npm run serve:api:local
+    volumes:
+      - .:/usr/app/
+      - /usr/app/node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      CURRYCOMPARE_ENVIRONMENT: local
+      DATABASE_URL: ${DATABASE_URL}
+  
+

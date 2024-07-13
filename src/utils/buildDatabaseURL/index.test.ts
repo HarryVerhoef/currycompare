@@ -6,6 +6,7 @@ import { buildDatabaseURL } from ".";
 import { mockClient } from "aws-sdk-client-mock";
 
 describe("buildDatabaseURL", () => {
+  const dbUrl = process.env.DATABASE_URL;
   const testUser = "testUser";
   const testPass = "01@$yooo$23";
   const testPassSecretName = "testPassSecretName";
@@ -18,6 +19,37 @@ describe("buildDatabaseURL", () => {
     SecretString: JSON.stringify({
       password: testPass,
     }),
+  });
+
+  beforeEach(() => {
+    process.env.CURRYCOMPARE_ENVIRONMENT = "dev";
+  });
+
+  afterAll(() => {
+    process.env.DATABASE_URL = dbUrl;
+  });
+
+  it("should throw an error in a local context and DATABASE_URL is not set", async () => {
+    process.env.CURRYCOMPARE_ENVIRONMENT = "local";
+
+    await expect(buildDatabaseURL()).rejects.toThrow(
+      "Environment variable 'DATABASE_URL' is not set",
+    );
+  });
+
+  it("should return DATABASE_URL if in a local context and it is set", async () => {
+    process.env.CURRYCOMPARE_ENVIRONMENT = "local";
+    process.env.DATABASE_URL =
+      "postgresql://user:mysecretpassword@localhost:5432";
+
+    await expect(
+      buildDatabaseURL({
+        username: testUser,
+        dbPasswordSecretName: testPassSecretName,
+        endpoint: testEndpoint,
+        awsRegion: testRegion,
+      }),
+    ).resolves.toBe("postgresql://user:mysecretpassword@localhost:5432");
   });
 
   it("should throw an error if DB_MASTER_USERNAME is not set", async () => {
