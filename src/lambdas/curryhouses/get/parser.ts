@@ -1,25 +1,9 @@
 import { type Either, isLeft, left, right } from "fp-ts/lib/Either";
+import { type LambdaEvent } from "../../../types/lambda";
 import {
-  type LambdaEventWithQueryParams,
-  type LambdaEvent,
-} from "../../../types/lambda";
-import * as t from "io-ts";
-import { searchRadius } from "../../../codecs/SearchRadius";
-import { latitudeFromString } from "../../../codecs/LatitudeFromString";
-import { longitudeFromString } from "../../../codecs/LongitudeFromString";
-
-const getCurryhousesQueryStringParams = t.type({
-  lat: latitudeFromString,
-  lng: longitudeFromString,
-  rad: searchRadius,
-});
-
-type GetCurryhousesQueryStringParams = t.TypeOf<
-  typeof getCurryhousesQueryStringParams
->;
-
-type GetCurryhousesEvent =
-  LambdaEventWithQueryParams<GetCurryhousesQueryStringParams>;
+  getCurryhousesQueryStringParams,
+  type GetCurryhousesEvent,
+} from "../../../types/api/curryhouses/get";
 
 export const parseGetCurryhouseEvent = (
   event: LambdaEvent,
