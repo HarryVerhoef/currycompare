@@ -31,7 +31,7 @@ export const handler: LambdaHandler = async (event) => {
 
   const prisma = new PrismaClient({ datasourceUrl: dbUrl });
 
-  // We are using a raw query here because prisma does not support postgis (geospatial queries).
+  // We are using a raw query here because prisma does not support postgis (geospatial queries)
   const curryhouses = await prisma.$queryRaw<CurryhouseLatLng[]>`
     SELECT
       "id",
