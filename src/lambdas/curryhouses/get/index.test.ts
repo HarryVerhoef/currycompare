@@ -2,7 +2,7 @@
 import buildLambdaEvent from "../../../utils/buildLambdaEvent";
 import { handler } from ".";
 import buildLambdaContext from "../../../utils/buildLambdaContext";
-import { type LambdaContext, type LambdaEvent } from "../../../types/lambda";
+import { type LambdaContext } from "../../../types/lambda";
 import { SearchRadius } from "../../../codecs/SearchRadius";
 
 import * as buildDatabaseURLUtils from "../../../utils/buildDatabaseURL";
@@ -27,20 +27,11 @@ describe("GET /curryhouses", () => {
     jest.restoreAllMocks();
   });
 
-  const dummyEvent: LambdaEvent = buildLambdaEvent();
   const dummyContext: LambdaContext = buildLambdaContext();
 
   (buildDatabaseURLUtils.buildDatabaseURL as jest.Mock).mockImplementation(
     () => dummyDBURL,
   );
-
-  it("should log the request event", async () => {
-    console.log = jest.fn();
-    await handler(dummyEvent, dummyContext, () => {});
-
-    expect(console.log).toHaveBeenCalled();
-    expect(console.log).toHaveBeenCalledWith("Request event:", dummyEvent);
-  });
 
   it("should respond with a 400 if lng is not included as a query string parameter", async () => {
     const event = buildLambdaEvent({

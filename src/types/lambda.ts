@@ -19,12 +19,30 @@ export type LambdaEventWithQueryParams<
   queryStringParameters: Q;
 };
 
+export type ValidatedLambdaEvent<
+  B,
+  Q = APIGatewayProxyEventQueryStringParameters,
+> = Omit<Omit<LambdaEvent, "queryStringParameters">, "body"> & {
+  body: B;
+  queryStringParameters: Q;
+};
+
 export type LambdaResponse = APIGatewayProxyStructuredResultV2;
 
 export type LambdaHandler<T = LambdaResponse> = (
   event: LambdaEvent,
   context: LambdaContext,
-  callback: Callback<LambdaResponse>,
+  callback: Callback<T>,
+) => Promise<T>;
+
+export type ValidatedLambdaHandler<
+  B,
+  Q = APIGatewayProxyEventQueryStringParameters,
+  T = LambdaResponse,
+> = (
+  event: ValidatedLambdaEvent<B, Q>,
+  context: LambdaContext,
+  callback: Callback<T>,
 ) => Promise<T>;
 
 export type LambdaHandlerWithQueryParams<
