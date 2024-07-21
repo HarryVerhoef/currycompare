@@ -23,8 +23,6 @@ describe("GET /curryhouses", () => {
   const dummyDBURL =
     "postgresql://currycompare_user:mysecretpassword@currycompare.com:5432";
 
-  // const prismaClientMock = mockDeep<PrismaClient>();
-
   afterEach(() => {
     jest.restoreAllMocks();
   });
@@ -56,7 +54,7 @@ describe("GET /curryhouses", () => {
 
     expect(statusCode).toBe(400);
     expect(JSON.parse(body ?? "{}").errorMsg).toBe(
-      "There was an error parsing the request",
+      "There was an error parsing the request: Unexpected type",
     );
   });
 
@@ -72,7 +70,7 @@ describe("GET /curryhouses", () => {
 
     expect(statusCode).toBe(400);
     expect(JSON.parse(body ?? "{}").errorMsg).toBe(
-      "There was an error parsing the request",
+      "There was an error parsing the request: Unexpected type",
     );
   });
 
@@ -88,7 +86,7 @@ describe("GET /curryhouses", () => {
 
     expect(statusCode).toBe(400);
     expect(JSON.parse(body ?? "{}").errorMsg).toBe(
-      "There was an error parsing the request",
+      "There was an error parsing the request: Unexpected type",
     );
   });
 
@@ -139,7 +137,7 @@ describe("GET /curryhouses", () => {
 
     expect(statusCode).toBe(400);
     expect(JSON.parse(body ?? "{}").errorMsg).toBe(
-      "There was an error parsing the request",
+      "There was an error parsing the request: Unexpected type",
     );
   });
 

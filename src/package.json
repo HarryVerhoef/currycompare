@@ -8,15 +8,22 @@
     "db:generate": "npx prisma generate",
     "db:migrate:deploy": "npx prisma migrate deploy",
     "db:migrate:local": "./node_modules/.bin/dotenv -e .env.local -- npx prisma migrate dev",
+    "db:reset:local": "./node_modules/.bin/dotenv -e .env.local -- npx prisma migrate reset --force",
     "deploy:lambdas": "./node_modules/.bin/ts-node ./ci/scripts/triggerLambdaDeployments.ts",
     "lint:check": "./node_modules/.bin/eslint . --ext .ts",
     "lint:fix": "./node_modules/.bin/eslint . --ext .ts --fix",
     "log:db:url:dev": "./node_modules/.bin/dotenv -e .env.dev -- npx ts-node ./utils/buildDatabaseURL/logDatabaseURL.ts",
     "serve:api:local": "npx ts-node ./index.ts",
     "serve:local": "docker compose --env-file .env.container up",
+    "serve:local:background": "docker compose --env-file .env.container up -d",
     "serve:local:clean": "docker compose --env-file .env.container up --build",
-    "test": "./node_modules/.bin/jest",
+    "serve:local:clean:background": "docker compose --env-file .env.container up --build -d",
+    "test:integration": "CURRYCOMPARE_ENVIRONMENT=local ./node_modules/.bin/jest --config jest.integration.config.json --silent",
+    "test:unit": "./node_modules/.bin/jest --config jest.unit.config.json",
     "transpile": "./node_modules/.bin/ts-node ./ci/scripts/transpile.ts"
+  },
+  "prisma": {
+    "seed": "./node_modules/.bin/ts-node ./prisma/seed.ts"
   },
   "author": "Harry Verhoef",
   "license": "ISC",
@@ -57,6 +64,7 @@
   },
   "dependencies": {
     "@prisma/client": "^5.9.1",
+    "axios": "^1.7.2",
     "fp-ts": "^2.16.6",
     "io-ts": "^2.2.21"
   }
