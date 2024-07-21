@@ -3,7 +3,7 @@
   "preset": "ts-jest",
   "testEnvironment": "node",
   "verbose": true,
-  "testMatch": ["/it/**/*.test.ts"],
+  "testMatch": ["**/it/**/*.test.ts"],
   "testPathIgnorePatterns": [
     "<rootDir>/node_modules/"
   ]

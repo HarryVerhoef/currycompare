@@ -8,6 +8,7 @@
     "db:generate": "npx prisma generate",
     "db:migrate:deploy": "npx prisma migrate deploy",
     "db:migrate:local": "./node_modules/.bin/dotenv -e .env.local -- npx prisma migrate dev",
+    "db:reset:local": "./node_modules/.bin/dotenv -e .env.local -- npx prisma migrate reset --force",
     "deploy:lambdas": "./node_modules/.bin/ts-node ./ci/scripts/triggerLambdaDeployments.ts",
     "lint:check": "./node_modules/.bin/eslint . --ext .ts",
     "lint:fix": "./node_modules/.bin/eslint . --ext .ts --fix",
@@ -20,6 +21,9 @@
     "test:integration": "./node_modules/.bin/jest --config jest.integration.config.json",
     "test:unit": "./node_modules/.bin/jest --config jest.unit.config.json",
     "transpile": "./node_modules/.bin/ts-node ./ci/scripts/transpile.ts"
+  },
+  "prisma": {
+    "seed": "./node_modules/.bin/ts-node ./prisma/seed.ts"
   },
   "author": "Harry Verhoef",
   "license": "ISC",

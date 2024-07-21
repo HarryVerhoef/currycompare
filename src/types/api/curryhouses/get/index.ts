@@ -1,8 +1,15 @@
 import * as t from "io-ts";
-import { latitudeFromString } from "../../../../codecs/LatitudeFromString";
-import { longitudeFromString } from "../../../../codecs/LongitudeFromString";
 import { searchRadius } from "../../../../codecs/SearchRadius";
 import { type LambdaEventWithQueryParams } from "../../../lambda";
+import { latitudeFromString } from "../../../../codecs/LatitudeFromString";
+import { longitudeFromString } from "../../../../codecs/LongitudeFromString";
+import { curryhouseLatLng } from "../../../../codecs/CurryhouseLatLng";
+
+export const getCurryhousesRequest = t.type({
+  lat: t.string,
+  lng: t.string,
+  rad: searchRadius,
+});
 
 export const getCurryhousesQueryStringParams = t.type({
   lat: latitudeFromString,
@@ -18,15 +25,7 @@ export type GetCurryhousesEvent =
   LambdaEventWithQueryParams<GetCurryhousesQueryStringParams>;
 
 export const getCurryhousesResponse = t.type({
-  curryhouses: t.array(
-    t.type({
-      id: t.string,
-      title: t.string,
-      phoneNumber: t.string,
-      email: t.string,
-      location: t.string,
-    }),
-  ),
+  curryhouses: t.array(curryhouseLatLng),
 });
 
 export type GetCurryhousesResponse = t.TypeOf<typeof getCurryhousesResponse>;

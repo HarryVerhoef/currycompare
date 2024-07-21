@@ -1,9 +1,10 @@
 import type * as t from "io-ts";
 
 export const combineDecoderErrors = (errors: t.Errors): string =>
-  errors.length > 1
+  errors.length >= 1
     ? errors
         .map<string>((error) => {
+          console.log(error);
           if (error.message !== undefined) return error.message;
 
           if (error.value instanceof Object) {

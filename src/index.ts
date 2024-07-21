@@ -11,7 +11,7 @@ const port = process.env.BACKEND_API_PORT ?? 3000;
 
 const lambdaContext: Context = buildLambdaContext();
 
-app.get("/curryhouses", async (req, res) => {
+app.get("/api/curryhouses", async (req, res) => {
   const lambdaEvent: LambdaEvent = expressRequestToLambdaEvent(req);
 
   try {

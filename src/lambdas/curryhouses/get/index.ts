@@ -2,9 +2,10 @@ import { isLeft } from "fp-ts/lib/Either";
 import { type LambdaHandler } from "../../../types/lambda";
 import { parseGetCurryhouseEvent } from "./parser";
 import buildLambdaError, { StatusCode } from "../../../utils/buildLambdaError";
-import { type Curryhouse, PrismaClient } from "../../../prisma/generated";
+import { PrismaClient } from "../../../prisma/generated";
 import convertSearchRadiusToMetres from "../../../utils/convertSearchRadiusToMetres";
 import { buildDatabaseURL } from "../../../utils/buildDatabaseURL";
+import { type CurryhouseLatLng } from "../../../codecs/CurryhouseLatLng";
 
 // https://www.prisma.io/docs/orm/prisma-client/deployment/serverless/deploy-to-aws-lambda#deploy-only-the-required-files
 
@@ -15,9 +16,8 @@ export const handler: LambdaHandler = async (event) => {
 
   const parseResult = parseGetCurryhouseEvent(event);
 
-  if (isLeft(parseResult)) {
+  if (isLeft(parseResult))
     return buildLambdaError(StatusCode.BAD_REQUEST, parseResult.left);
-  }
 
   const { lat, lng, rad } = parseResult.right.queryStringParameters;
 
@@ -33,8 +33,14 @@ export const handler: LambdaHandler = async (event) => {
 
   // TODO: Need to ensure this is safe from injection.
   // We are using a raw query here because prisma does not support postgis (geospatial queries).
-  const curryhouses = await prisma.$queryRaw<Curryhouse[]>`
-    SELECT *
+  const curryhouses = await prisma.$queryRaw<CurryhouseLatLng[]>`
+    SELECT
+      "id",
+      "title",
+      "phoneNumber",
+      "email",
+      ST_X("location"::geometry) AS "lng",
+      ST_Y("location"::geometry) AS "lat"
     FROM "Curryhouse"
     WHERE ST_DWithin(
       location,
