@@ -20,7 +20,7 @@ jobs:
       - name: Run Unit Tests
         run: |
           cd src
-          npm run test
+          npm run test:unit
       - name: Trigger lambda deployments
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
