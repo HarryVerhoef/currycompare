@@ -8,6 +8,8 @@ import { getCurryhousesQueryStringParams } from "../../../types/api/curryhouses/
 
 // https://www.prisma.io/docs/orm/prisma-client/deployment/serverless/deploy-to-aws-lambda#deploy-only-the-required-files
 
+export const getCurryhousesName = "GetCurryhouses";
+
 export const handler: LambdaHandler = buildLambdaHandler({
   queryCodec: getCurryhousesQueryStringParams,
   handler: async (event) => {
