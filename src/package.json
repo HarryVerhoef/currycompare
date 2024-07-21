@@ -18,7 +18,7 @@
     "serve:local:background": "docker compose --env-file .env.container up -d",
     "serve:local:clean": "docker compose --env-file .env.container up --build",
     "serve:local:clean:background": "docker compose --env-file .env.container up --build -d",
-    "test:integration": "./node_modules/.bin/jest --config jest.integration.config.json",
+    "test:integration": "./node_modules/.bin/jest --config jest.integration.config.json --detectOpenHandles --silent",
     "test:unit": "./node_modules/.bin/jest --config jest.unit.config.json",
     "transpile": "./node_modules/.bin/ts-node ./ci/scripts/transpile.ts"
   },
