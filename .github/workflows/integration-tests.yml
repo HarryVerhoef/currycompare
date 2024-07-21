@@ -10,7 +10,7 @@ jobs:
         run: |
           cd src
           npm install
-      - name: Run Unit Tests
+      - name: Run Integration Tests
         run: |
           cd src/it
           ./run_itest.sh
