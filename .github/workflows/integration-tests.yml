@@ -1,0 +1,16 @@
+name: Integration Tests
+on: push
+jobs:
+  RunIntegrationTests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone the repo
+        uses: actions/checkout@v4
+      - name: Install Packages
+        run: |
+          cd src
+          npm install
+      - name: Run Unit Tests
+        run: |
+          cd src/it
+          ./run_itest.sh
