@@ -10,7 +10,19 @@ jobs:
         run: |
           cd src
           npm install
+      - name: Fire up local services
+        run: |
+          cd src
+          npm run serve:local:clean:background
+      - name: Wait for DB to be healthy
+        run: sleep 20
+      - name: Reset DB
+        run: |
+          cd src
+          CONTAINER_ID=$(docker ps --filter "name=src-backend" --format "{{.ID}}")
+          docker exec $CONTAINER_ID npm run db:reset:local
       - name: Run Integration Tests
         run: |
-          cd src/it
-          ./run_itest.sh
+          cd src
+          CONTAINER_ID=$(docker ps --filter "name=src-backend" --format "{{.ID}}")
+          docker exec $CONTAINER_ID npm run test:integration
