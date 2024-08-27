@@ -1,7 +1,7 @@
 import { type LambdaHandler } from "../../../../types/lambda";
 import buildLambdaHandler from "../../../../utils/buildLambdaHandler";
 
-// force job.
+// force job
 
 export const PostCurryhouseApplicationName = "SubmitCurryhouseApplication";
 
