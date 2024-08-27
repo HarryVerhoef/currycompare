@@ -1,5 +1,5 @@
-import { type LambdaHandler } from "../../../types/lambda";
-import buildLambdaHandler from "../../../utils/buildLambdaHandler";
+import { type LambdaHandler } from "../../../../types/lambda";
+import buildLambdaHandler from "../../../../utils/buildLambdaHandler";
 
 // force job
 

@@ -1,4 +1,4 @@
-import { PostCurryhouseApplicationName } from "../../lambdas/curryhouse/application";
+import { PostCurryhouseApplicationName } from "../../lambdas/curryhouse/application/post";
 import { getCurryhousesName } from "../../lambdas/curryhouses/get";
 
 const getLambdaName = (lambdaKey: string): string | undefined =>

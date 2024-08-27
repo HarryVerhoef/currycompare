@@ -1,6 +1,6 @@
 import { handler } from ".";
-import buildLambdaContext from "../../../utils/buildLambdaContext";
-import buildLambdaEvent from "../../../utils/buildLambdaEvent";
+import buildLambdaContext from "../../../../utils/buildLambdaContext";
+import buildLambdaEvent from "../../../../utils/buildLambdaEvent";
 
 describe("POST /curryhouse/application", () => {
   const dummyContext = buildLambdaContext();
