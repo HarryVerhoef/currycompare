@@ -7,7 +7,7 @@ interface URLBrand {
 const isValidHttpUrl = (s: string): boolean => {
   try {
     const parsedUrl = new URL(s);
-    if (["http", "https"].includes(parsedUrl.protocol)) return true;
+    if (["http:", "https:"].includes(parsedUrl.protocol)) return true;
 
     return false;
   } catch {

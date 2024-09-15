@@ -20,12 +20,12 @@ jest.mock("../../../prisma/generated", () => ({
 }));
 
 describe("GET /curryhouses", () => {
-  const dummyDBURL =
-    "postgresql://currycompare_user:mysecretpassword@currycompare.com:5432";
-
   afterEach(() => {
     jest.restoreAllMocks();
   });
+
+  const dummyDBURL =
+    "postgresql://currycompare_user:mysecretpassword@currycompare.com:5432";
 
   const dummyContext: LambdaContext = buildLambdaContext();
 
