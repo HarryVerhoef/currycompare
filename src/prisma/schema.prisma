@@ -41,9 +41,11 @@ model Review {
 model Curryhouse {
   id          String @id @default(uuid())
   title       String
+  description String?
   approved    Boolean
   phoneNumber String
   email       String
+  websiteUrl  String?
   location    Unsupported("geography(Point, 4326)")
   reviews     Review[]
 }

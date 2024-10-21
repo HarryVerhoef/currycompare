@@ -23,9 +23,7 @@ const buildLambdaHandler =
   async (event, context, callback) => {
     try {
       const decodedBody =
-        event.body !== undefined
-          ? bodyCodec?.decode(JSON.parse(event.body))
-          : undefined;
+        event.body !== undefined ? bodyCodec?.decode(event.body) : undefined;
       const decodedQueryParams = queryCodec?.decode(
         event.queryStringParameters,
       );

@@ -1,16 +1,15 @@
 import { type CurryhouseLatLng } from "../../../../codecs/CurryhouseLatLng";
 import { PrismaClient } from "../../../../prisma/generated";
-import { submitCurryhouseApplicationRequest } from "../../../../types/api/curryhouse/application/post";
+import { submitCurryhouseApplicationBrandedRequest } from "../../../../types/api/curryhouse/application/post";
 import { type LambdaHandler } from "../../../../types/lambda";
 import { buildDatabaseURL } from "../../../../utils/buildDatabaseURL";
 import buildLambdaHandler from "../../../../utils/buildLambdaHandler";
-
-// force job
+import { v4 as uuid } from "uuid";
 
 export const PostCurryhouseApplicationName = "SubmitCurryhouseApplication";
 
 export const handler: LambdaHandler = buildLambdaHandler({
-  bodyCodec: submitCurryhouseApplicationRequest,
+  bodyCodec: submitCurryhouseApplicationBrandedRequest,
   handler: async (event) => {
     console.log("Request event:", event);
 
@@ -30,22 +29,26 @@ export const handler: LambdaHandler = buildLambdaHandler({
 
     const prisma = new PrismaClient({ datasourceUrl: dbUrl });
 
+    const id = uuid();
+
     // We are using a raw query here because prisma does not support postgis (geospatial queries)
-    await prisma.$queryRaw<CurryhouseLatLng>`
+    await prisma.$executeRaw<CurryhouseLatLng>`
       INSERT INTO "Curryhouse" (
+        "id",
         "title",
         "phoneNumber",
         "email",
         "location",
         "websiteUrl",
         "description",
-        "approvalStatus"
+        "approved"
       )
       VALUES (
+        ${id},
         ${title},
         ${phoneNumber},
         ${contactEmail},
-        St_setsrid(St_makepoint(${lng}, ${lat}), 4326)),
+        St_setsrid(St_makepoint(${lng}, ${lat}), 4326),
         ${websiteUrl},
         ${description},
         FALSE
@@ -54,9 +57,6 @@ export const handler: LambdaHandler = buildLambdaHandler({
 
     return {
       statusCode: 204,
-      headers: {
-        "Content-Type": "application/json",
-      },
     };
   },
 });

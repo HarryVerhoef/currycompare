@@ -7,6 +7,16 @@ import { url } from "../../../../../codecs/URL";
 
 export const submitCurryhouseApplicationRequest = t.type({
   title: t.string,
+  phoneNumber: t.string,
+  lat: t.string,
+  lng: t.string,
+  contactEmail: t.string,
+  websiteUrl: t.union([t.undefined, t.string]),
+  description: t.union([t.undefined, t.string]),
+});
+
+export const submitCurryhouseApplicationBrandedRequest = t.type({
+  title: t.string,
   phoneNumber,
   lat: latitudeFromString,
   lng: longitudeFromString,
@@ -15,6 +25,6 @@ export const submitCurryhouseApplicationRequest = t.type({
   description: t.union([t.undefined, t.string]),
 });
 
-export type SubmitCurryhouseApplicationRequest = t.TypeOf<
-  typeof submitCurryhouseApplicationRequest
+export type SubmitCurryhouseApplicationBrandedRequest = t.TypeOf<
+  typeof submitCurryhouseApplicationBrandedRequest
 >;

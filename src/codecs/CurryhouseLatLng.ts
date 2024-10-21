@@ -12,6 +12,7 @@ export const curryhouseLatLng = t.type({
   lng: t.number,
   websiteUrl: t.union([t.undefined, url]),
   description: t.union([t.undefined, t.string]),
+  approved: t.boolean,
 });
 
 export type CurryhouseLatLng = t.TypeOf<typeof curryhouseLatLng>;

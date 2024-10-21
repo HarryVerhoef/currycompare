@@ -35,7 +35,10 @@ export const handler: LambdaHandler = buildLambdaHandler({
       "phoneNumber",
       "email",
       ST_X("location"::geometry) AS "lng",
-      ST_Y("location"::geometry) AS "lat"
+      ST_Y("location"::geometry) AS "lat",
+      "websiteUrl",
+      "description",
+      "approved"
     FROM "Curryhouse"
     WHERE ST_DWithin(
       location,
@@ -56,7 +59,18 @@ export const handler: LambdaHandler = buildLambdaHandler({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        curryhouses,
+        // This might look stupid but it's a good way to ensure that the data is in the correct shape, since we're using a raw query with a type cast
+        curryhouses: curryhouses.map((curryhouse) => ({
+          id: curryhouse.id,
+          title: curryhouse.title,
+          phoneNumber: curryhouse.phoneNumber,
+          email: curryhouse.email,
+          lat: curryhouse.lat,
+          lng: curryhouse.lng,
+          websiteUrl: curryhouse.websiteUrl ?? undefined,
+          description: curryhouse.description ?? undefined,
+          approved: curryhouse.approved,
+        })),
       }),
     };
   },

@@ -14,6 +14,7 @@ import {
 import axios, { isAxiosError } from "axios";
 import { Environment, getEnvironment } from "../getEnvironment";
 import { curryCompareAPIError } from "../../codecs/CurryCompareAPIError";
+import { submitCurryhouseApplicationRequest } from "../../types/api/curryhouse/application/post";
 
 const PROD_API_URL = "https://api.currycompare.com";
 const DEV_API_URL = "https://api.dev.currycompare.com";
@@ -89,9 +90,12 @@ const buildApiCall =
         url: `${getApiUrl()}${path}`,
         data: decodedBody?.right,
         params: decodedQuery?.right,
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
 
-      console.log(response.data.curryhouses);
+      console.error(response.data);
 
       const decodedResponse = responseCodec?.decode(response.data);
 
@@ -129,4 +133,10 @@ export const getCurryhouses = buildApiCall({
   path: "/curryhouses",
   queryCodec: getCurryhousesRequest,
   responseCodec: getCurryhousesResponse,
+});
+
+export const submitCurryhouseApplication = buildApiCall({
+  method: HTTPMethod.POST,
+  path: "/curryhouse/application",
+  bodyCodec: submitCurryhouseApplicationRequest,
 });
