@@ -5,7 +5,7 @@ import { type LambdaHandler } from "../../../../types/lambda";
 import { buildDatabaseURL } from "../../../../utils/buildDatabaseURL";
 import buildLambdaHandler from "../../../../utils/buildLambdaHandler";
 import { v4 as uuid } from "uuid";
-
+// force job
 export const PostCurryhouseApplicationName = "SubmitCurryhouseApplication";
 
 export const handler: LambdaHandler = buildLambdaHandler({
