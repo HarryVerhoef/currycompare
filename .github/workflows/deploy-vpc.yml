@@ -1,4 +1,4 @@
-name: Deploy VPC (DEV) # Force job
+name: Deploy VPC (DEV) # Force job 2
 on:
   push:
     paths: 'infra/vpc/**'
