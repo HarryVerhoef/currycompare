@@ -25,7 +25,7 @@
   },
   {
     "ParameterKey": "PostCurryhouseApplicationLambdaARN",
-    "ParameterValue": "temp"
+    "ParameterValue": "arn:aws:lambda:eu-west-2:637423366782:function:SubmitCurryhouseApplication"
   },
   {
     "ParameterKey": "LogGroupName",
