@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import * as t from "io-ts";
 
 // Taken from https://emailregex.com/

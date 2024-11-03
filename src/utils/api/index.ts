@@ -15,8 +15,6 @@ import axios, { isAxiosError } from "axios";
 import { Environment, getEnvironment } from "../getEnvironment";
 import { curryCompareAPIError } from "../../codecs/CurryCompareAPIError";
 import { submitCurryhouseApplicationRequest } from "../../types/api/curryhouse/application/post";
-import { type UserRole } from "../../prisma/generated";
-import jwt from "jsonwebtoken";
 
 const PROD_API_URL = "https://api.currycompare.com";
 const DEV_API_URL = "https://api.dev.currycompare.com";
