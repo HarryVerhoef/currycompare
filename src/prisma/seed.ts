@@ -1,12 +1,18 @@
 /* eslint-disable @typescript-eslint/promise-function-async */
 import { buildDatabaseURL } from "../utils/buildDatabaseURL";
 import { isProd } from "../utils/getEnvironment";
-import { PrismaClient, type PrismaPromise, type User } from "./generated";
+import {
+  PrismaClient,
+  UserRole,
+  type PrismaPromise,
+  type User,
+} from "./generated";
 
 const createJohn = (prisma: PrismaClient): PrismaPromise<User> =>
   prisma.user.create({
     data: {
       email: "john.doe@currycompare.com",
+      role: UserRole.CONSUMER,
       firstName: "John",
       lastName: "Doe",
     },
@@ -85,6 +91,7 @@ const createBillingshurstBhajis = (
 const createJane = (prisma: PrismaClient): PrismaPromise<User> =>
   prisma.user.create({
     data: {
+      role: UserRole.CONSUMER,
       email: "jane.doe@currycompare.com",
       firstName: "Jane",
       lastName: "Doe",

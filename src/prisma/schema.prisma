@@ -10,6 +10,12 @@ enum ApprovalStatus {
   REJECTED
 }
 
+enum UserRole {
+  CONSUMER
+  ADMIN
+  GLOBAL_ADMIN
+}
+
 generator client {
   provider = "prisma-client-js"
   output = "./generated"
@@ -19,6 +25,7 @@ generator client {
 
 model User {
   id         String @id @default(uuid())
+  role       UserRole
   email      String @unique
   firstName  String
   lastName   String

@@ -1,5 +1,5 @@
 import { type CurryhouseLatLng } from "../../../../codecs/CurryhouseLatLng";
-import { PrismaClient } from "../../../../prisma/generated";
+import { PrismaClient, UserRole } from "../../../../prisma/generated";
 import { submitCurryhouseApplicationBrandedRequest } from "../../../../types/api/curryhouse/application/post";
 import { type LambdaHandler } from "../../../../types/lambda";
 import { buildDatabaseURL } from "../../../../utils/buildDatabaseURL";
@@ -9,6 +9,7 @@ import { v4 as uuid } from "uuid";
 export const PostCurryhouseApplicationName = "SubmitCurryhouseApplication";
 
 export const handler: LambdaHandler = buildLambdaHandler({
+  roles: [UserRole.CONSUMER, UserRole.ADMIN, UserRole.GLOBAL_ADMIN],
   bodyCodec: submitCurryhouseApplicationBrandedRequest,
   handler: async (event) => {
     console.log("Request event:", event);
