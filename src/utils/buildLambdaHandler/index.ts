@@ -6,6 +6,10 @@ import {
 import type * as t from "io-ts";
 import buildLambdaError, { StatusCode } from "../buildLambdaError";
 import { combineDecoderErrors } from "../combineDecoderErrors";
+import { type UserRole } from "../../prisma/generated";
+import jwt from "jsonwebtoken";
+import { decodedJwt } from "../../codecs/DecodedJwt";
+import { intersects } from "radash";
 
 const buildLambdaHandler =
   <
@@ -15,38 +19,102 @@ const buildLambdaHandler =
     bodyCodec,
     queryCodec,
     handler,
+    roles = [],
   }: {
     bodyCodec?: BodyCodec;
     queryCodec?: QueryCodec;
     handler: ValidatedLambdaHandler<t.TypeOf<BodyCodec>, t.TypeOf<QueryCodec>>;
+    roles?: UserRole[];
   }): LambdaHandler =>
   async (event, context, callback) => {
-    const decodedBody = bodyCodec?.decode(event.body);
-    const decodedQueryParams = queryCodec?.decode(event.queryStringParameters);
+    try {
+      if (roles.length > 0) {
+        const token =
+          event.headers?.Authorization ?? event.headers?.authorization;
 
-    if (decodedBody !== undefined && isLeft(decodedBody)) {
+        if (token === undefined) {
+          console.log("Unauthorized: No token provided");
+          return buildLambdaError(
+            StatusCode.UNAUTHORIZED,
+            "You are not authorized to access this resource.",
+          );
+        }
+
+        // See why it is safe to use jwt.decode instead of jwt.verify here in documentation/architecture/user-authorisation.md
+        const claims = jwt.decode(token);
+
+        if (claims === null) {
+          console.log("Unauthorized: No claims found in decoded JWT");
+
+          return buildLambdaError(
+            StatusCode.UNAUTHORIZED,
+            "You are not authorized to access this resource.",
+          );
+        }
+
+        const decoded = decodedJwt.decode(claims);
+
+        if (isLeft(decoded)) {
+          console.error("Unauthorized: Claims could not be decoded");
+
+          return buildLambdaError(
+            StatusCode.UNAUTHORIZED,
+            "You are not authorized to access this resource.",
+          );
+        }
+
+        const requestRoles = decoded.right["cognito:groups"];
+
+        if (!intersects(requestRoles, roles)) {
+          return buildLambdaError(
+            StatusCode.UNAUTHORIZED,
+            "You are not authorized to access this resource.",
+          );
+        }
+      }
+
+      const decodedBody =
+        event.body !== undefined
+          ? bodyCodec?.decode(JSON.parse(event.body))
+          : undefined;
+      const decodedQueryParams = queryCodec?.decode(
+        event.queryStringParameters,
+      );
+
+      if (decodedBody !== undefined && isLeft(decodedBody)) {
+        console.log("Bad request: Body could not be decoded");
+        console.log(event);
+        return buildLambdaError(
+          StatusCode.BAD_REQUEST,
+          `There was an error parsing the request: ${combineDecoderErrors(decodedBody.left)}`,
+        );
+      }
+
+      if (decodedQueryParams !== undefined && isLeft(decodedQueryParams)) {
+        console.log("Bad request: Query parameters could not be decoded");
+        return buildLambdaError(
+          StatusCode.BAD_REQUEST,
+          `There was an error parsing the request: ${combineDecoderErrors(decodedQueryParams.left)}`,
+        );
+      }
+
+      return await handler(
+        {
+          ...event,
+          body: decodedBody?.right,
+          queryStringParameters: decodedQueryParams?.right,
+        },
+        context,
+        callback,
+      );
+    } catch (error) {
+      console.error("Request: ", event);
+      console.error(error);
       return buildLambdaError(
-        StatusCode.BAD_REQUEST,
-        `There was an error parsing the request: ${combineDecoderErrors(decodedBody.left)}`,
+        StatusCode.INTERNAL_ERROR,
+        "There was an error parsing your request, please try again later.",
       );
     }
-
-    if (decodedQueryParams !== undefined && isLeft(decodedQueryParams)) {
-      return buildLambdaError(
-        StatusCode.BAD_REQUEST,
-        `There was an error parsing the request: ${combineDecoderErrors(decodedQueryParams.left)}`,
-      );
-    }
-
-    return await handler(
-      {
-        ...event,
-        body: decodedBody?.right,
-        queryStringParameters: decodedQueryParams?.right,
-      },
-      context,
-      callback,
-    );
   };
 
 export default buildLambdaHandler;

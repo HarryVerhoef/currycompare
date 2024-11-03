@@ -28,6 +28,8 @@ For each user group, Amazon Cognito allows us to assign a corresponding IAM (Ide
 ### Integration with Amazon API Gateway
 A key feature of Amazon Cognito is its seamless integration with Amazon API Gateway. This integration facilitates the process of user authentication for each API request. By utilising Amazon Cognito as an authoriser in API Gateway, we can securely authenticate users. This is achieved by requiring users to include either an identity or access token in the `Authorization` header of their API requests.
 
+The Cognito Authorizer is attached to relevant API routes so that the request's JWT can be verified, and any request that reaches the lambda integration can be processed under the assumption that the JWT is valid. From within the lambda, therefore, we can simply decode the JWT and determine whether the claims render the request authorised or not, without having to go through the unnecessary step of re-verifying JWT, since that was already done by the Cognito Authorizer.
+
 ### User Authentication and Management
 In addition to role management and API integration, Amazon Cognito streamlines the processes of user login and sign-up. This simplifies the user management lifecycle, encompassing user registration, authentication, and account recovery.
 
@@ -40,5 +42,5 @@ api --> Client
 api-->cognito[Cognito]
 cognito-->api
 api-->handle[Handle Request]
-
 ```
+

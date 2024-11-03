@@ -141,6 +141,9 @@ describe("GET /curryhouses", () => {
             lat: -0.149302,
             lng: 51.457992,
             phoneNumber: "0777777777",
+            description: undefined,
+            websiteUrl: undefined,
+            approved: false,
           },
         ],
       });
@@ -184,6 +187,9 @@ describe("GET /curryhouses", () => {
             lat: -0.149302,
             lng: 51.457992,
             phoneNumber: "0777777777",
+            description: undefined,
+            websiteUrl: undefined,
+            approved: false,
           },
           {
             id: "battersea-bhunas",
@@ -192,6 +198,9 @@ describe("GET /curryhouses", () => {
             phoneNumber: "0777777778",
             lat: -0.144589,
             lng: 51.481811,
+            description: undefined,
+            websiteUrl: undefined,
+            approved: false,
           },
         ],
       });

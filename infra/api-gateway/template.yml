@@ -14,6 +14,8 @@ Parameters:
     Type: String
   GetCurryhousesLambdaARN:
     Type: String
+  PostCurryhouseApplicationLambdaARN:
+    Type: String
   LogGroupName:
     Type: String
 Resources:
@@ -96,6 +98,13 @@ Resources:
     Properties:
       ApiId: !Ref Api
       RouteKey: POST /curryhouse/application
+      Target: !Join
+        - ''
+        - - 'integrations/'
+          - !Ref PostCurryhouseApplicationIntegration
+      AuthorizationType: JWT
+      AuthorizerId: !Ref CognitoAuthorizer
+
   PatchCurryhouseApplication:
     Type: AWS::ApiGatewayV2::Route
     Properties:
@@ -112,13 +121,19 @@ Resources:
       ApiId: !Ref Api
       RouteKey: PUT /curryhouse/{curryHouseId}
 
-
-  # API Integrations with force push
   GetCurryhousesIntegration:
     Type: AWS::ApiGatewayV2::Integration
     Properties:
       ApiId: !Ref Api
       IntegrationUri: !Ref GetCurryhousesLambdaARN
+      IntegrationType: AWS_PROXY
+      PayloadFormatVersion: 2.0
+
+  PostCurryhouseApplicationIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref Api
+      IntegrationUri: !Ref PostCurryhouseApplicationLambdaARN
       IntegrationType: AWS_PROXY
       PayloadFormatVersion: 2.0
 

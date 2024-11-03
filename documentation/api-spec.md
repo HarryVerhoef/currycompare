@@ -79,7 +79,7 @@ The base URL for the CurryCompare API is `https://www.currycompare.com/api`
 ### Create a curry house application
  - **Endpoint:** `/curryhouse/application`
  - **Method:** `POST`
- - **Roles:** `ADMIN`
+ - **Roles:** `CONSUMER | ADMIN | GLOBAL_ADMIN`
  - **Description:** Submit a curry house application - a precursor to getting a curry house listed on curry compare.
  - **Request Body:**
    - **`title`** (String): The name of the curry house.

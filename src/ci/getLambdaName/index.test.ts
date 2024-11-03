@@ -8,7 +8,7 @@ describe("getLambdaName", () => {
     ["review/delete", undefined],
     ["user/reviews/get", undefined],
     ["curryhouses/get", "GetCurryhouses"], // Parameterise environment when building prod
-    ["curryhouse/applicaiton/post", undefined],
+    ["curryhouse/application/post", "SubmitCurryhouseApplication"],
     ["curryhouse/application/patch", undefined],
     ["curryhouse/get", undefined],
     ["curryhouse/put", undefined],

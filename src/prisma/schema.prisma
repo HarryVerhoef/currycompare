@@ -4,6 +4,18 @@ datasource db {
   extensions = [postgis]
 }
 
+enum ApprovalStatus {
+  UNREVIEWED
+  APPROVED
+  REJECTED
+}
+
+enum UserRole {
+  CONSUMER
+  ADMIN
+  GLOBAL_ADMIN
+}
+
 generator client {
   provider = "prisma-client-js"
   output = "./generated"
@@ -13,6 +25,7 @@ generator client {
 
 model User {
   id         String @id @default(uuid())
+  role       UserRole
   email      String @unique
   firstName  String
   lastName   String
@@ -35,8 +48,11 @@ model Review {
 model Curryhouse {
   id          String @id @default(uuid())
   title       String
+  description String?
+  approved    Boolean
   phoneNumber String
   email       String
+  websiteUrl  String?
   location    Unsupported("geography(Point, 4326)")
   reviews     Review[]
 }

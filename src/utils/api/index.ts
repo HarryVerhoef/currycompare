@@ -14,6 +14,7 @@ import {
 import axios, { isAxiosError } from "axios";
 import { Environment, getEnvironment } from "../getEnvironment";
 import { curryCompareAPIError } from "../../codecs/CurryCompareAPIError";
+import { submitCurryhouseApplicationRequest } from "../../types/api/curryhouse/application/post";
 
 const PROD_API_URL = "https://api.currycompare.com";
 const DEV_API_URL = "https://api.dev.currycompare.com";
@@ -61,11 +62,13 @@ const buildApiCall =
   }): (({
     body,
     query,
+    authorization,
   }: {
     body?: t.TypeOf<BodyCodec>;
     query?: t.TypeOf<QueryCodec>;
+    authorization?: string;
   }) => Promise<ApiResponse<t.TypeOf<ResponseCodec>>>) =>
-  async ({ body = {}, query = {} }) => {
+  async ({ body = {}, query = {}, authorization }) => {
     try {
       const decodedBody = bodyCodec?.decode(body);
       const decodedQuery = queryCodec?.decode(query);
@@ -87,11 +90,15 @@ const buildApiCall =
       const response = await axios({
         method,
         url: `${getApiUrl()}${path}`,
-        data: decodedBody?.right,
+        data: JSON.stringify(decodedBody?.right),
         params: decodedQuery?.right,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authorization,
+        },
       });
 
-      console.log(response.data.curryhouses);
+      console.error(response.data);
 
       const decodedResponse = responseCodec?.decode(response.data);
 
@@ -129,4 +136,10 @@ export const getCurryhouses = buildApiCall({
   path: "/curryhouses",
   queryCodec: getCurryhousesRequest,
   responseCodec: getCurryhousesResponse,
+});
+
+export const submitCurryhouseApplication = buildApiCall({
+  method: HTTPMethod.POST,
+  path: "/curryhouse/application",
+  bodyCodec: submitCurryhouseApplicationRequest,
 });

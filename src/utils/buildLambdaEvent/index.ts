@@ -1,7 +1,9 @@
+import { type UserRole } from "../../prisma/generated";
 import {
   type LambdaEvent,
   type LambdaRequestContext,
 } from "../../types/lambda";
+import jwt from "jsonwebtoken";
 
 const dummyRequestContext: LambdaRequestContext = {
   accountId: "123456789012",
@@ -62,9 +64,30 @@ const defaultEvent: LambdaEvent = {
 
 const buildLambdaEvent = (
   overrides: Partial<LambdaEvent> = {},
-): LambdaEvent => ({
-  ...defaultEvent,
-  ...overrides,
-});
+  roles: UserRole[] = [], // This is just used to facilitate unit tests mocking user roles
+): LambdaEvent => {
+  if (roles.length === 0)
+    return {
+      ...defaultEvent,
+      ...overrides,
+    };
+
+  const authorization = jwt.sign(
+    {
+      "cognito:groups": roles,
+    },
+    "secret-key", // The secret key does not matter here, since this util is only used in tests, and we decode without verification (see documentation/architecture/user-authorisation.md)
+  );
+
+  return {
+    ...defaultEvent,
+    ...overrides,
+    headers: {
+      ...defaultEvent.headers,
+      Authorization: authorization,
+      ...overrides.headers,
+    },
+  };
+};
 
 export default buildLambdaEvent;
