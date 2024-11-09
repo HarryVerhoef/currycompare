@@ -6,7 +6,7 @@ import { buildDatabaseURL } from "../../../../utils/buildDatabaseURL";
 import buildLambdaHandler from "../../../../utils/buildLambdaHandler";
 import { v4 as uuid } from "uuid";
 // force job
-export const PostCurryhouseApplicationName = "SubmitCurryhouseApplication";
+export const postCurryhouseApplicationName = "SubmitCurryhouseApplication";
 
 export const handler: LambdaHandler = buildLambdaHandler({
   roles: [UserRole.CONSUMER, UserRole.ADMIN, UserRole.GLOBAL_ADMIN],
