@@ -24,6 +24,14 @@
     "ParameterValue": "curryhouse/application/post/index.zip"
   },
   {
+    "ParameterKey": "GetCurryhouseFunctionName",
+    "ParameterValue": "DevGetCurryhouse"
+  },
+  {
+    "ParameterKey": "GetCurryhouseS3Key",
+    "ParameterValue": "curryhouse/{curryHouseId}/get/index.zip"
+  },
+  {
     "ParameterKey": "ApiArn",
     "ParameterValue": "arn:aws:execute-api:eu-west-2:637423366782:2v4t7lvpyd/*/*/curryhouses"
   },
