@@ -15,15 +15,22 @@ const buildLambdaHandler =
   <
     BodyCodec extends t.Type<any, any, any>,
     QueryCodec extends t.Type<any, any, any>,
+    PathCodec extends t.Type<any, any, any>,
   >({
     bodyCodec,
     queryCodec,
+    pathCodec,
     handler,
     roles = [],
   }: {
     bodyCodec?: BodyCodec;
     queryCodec?: QueryCodec;
-    handler: ValidatedLambdaHandler<t.TypeOf<BodyCodec>, t.TypeOf<QueryCodec>>;
+    pathCodec?: PathCodec;
+    handler: ValidatedLambdaHandler<
+      t.TypeOf<BodyCodec>,
+      t.TypeOf<QueryCodec>,
+      t.TypeOf<PathCodec>
+    >;
     roles?: UserRole[];
   }): LambdaHandler =>
   async (event, context, callback) => {
@@ -80,6 +87,7 @@ const buildLambdaHandler =
       const decodedQueryParams = queryCodec?.decode(
         event.queryStringParameters,
       );
+      const decodedPathParams = pathCodec?.decode(event.pathParameters);
 
       if (decodedBody !== undefined && isLeft(decodedBody)) {
         console.log("Bad request: Body could not be decoded");
@@ -98,11 +106,20 @@ const buildLambdaHandler =
         );
       }
 
+      if (decodedPathParams !== undefined && isLeft(decodedPathParams)) {
+        console.log("Bad request: Path parameters could not be decoded");
+        return buildLambdaError(
+          StatusCode.BAD_REQUEST,
+          `There was an error parsing the request: ${combineDecoderErrors(decodedPathParams.left)}`,
+        );
+      }
+
       return await handler(
         {
           ...event,
           body: decodedBody?.right,
           queryStringParameters: decodedQueryParams?.right,
+          pathParameters: decodedPathParams?.right,
         },
         context,
         callback,
