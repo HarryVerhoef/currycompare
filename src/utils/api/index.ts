@@ -18,7 +18,7 @@ import { submitCurryhouseApplicationRequest } from "../../types/api/curryhouse/a
 import {
   getCurryhousePathParams,
   getCurryhouseResponse,
-} from "../../types/api/curryhouse/{curryHouseId}/get";
+} from "../../types/api/curryhouse/:curryHouseId/get";
 import { interpolatePath } from "../interpolatePath";
 
 const PROD_API_URL = "https://api.currycompare.com";

@@ -1,4 +1,4 @@
-import { getCurryhousePathParams } from "../../../../types/api/curryhouse/{curryHouseId}/get";
+import { getCurryhousePathParams } from "../../../../types/api/curryhouse/:curryHouseId/get";
 import { buildDatabaseURL } from "../../../../utils/buildDatabaseURL";
 import buildLambdaHandler from "../../../../utils/buildLambdaHandler";
 import { PrismaClient } from "../../../../prisma/generated";
