@@ -29,7 +29,7 @@
   },
   {
     "ParameterKey": "GetCurryhouseS3Key",
-    "ParameterValue": "curryhouse/{curryHouseId}/get/index.zip"
+    "ParameterValue": "curryhouse/:curryHouseId/get/index.zip"
   },
   {
     "ParameterKey": "ApiArn",

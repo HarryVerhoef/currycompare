@@ -8,6 +8,7 @@ on:
         options:
           - curryhouses/get
           - curryhouse/application/post
+          - curryhouse/:curryHouseId/get
       lambdaName:
         required: true
         type: choice
