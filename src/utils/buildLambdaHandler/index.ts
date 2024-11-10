@@ -34,6 +34,7 @@ const buildLambdaHandler =
     roles?: UserRole[];
   }): LambdaHandler =>
   async (event, context, callback) => {
+    console.log("Event:", event);
     try {
       if (roles.length > 0) {
         const token =

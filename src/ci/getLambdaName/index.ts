@@ -1,5 +1,5 @@
 import { postCurryhouseApplicationName } from "../../lambdas/curryhouse/application/post";
-import { getCurryhouseName } from "../../lambdas/curryhouse/{curryhouseId}/get";
+import { getCurryhouseName } from "../../lambdas/curryhouse/{curryHouseId}/get";
 import { getCurryhousesName } from "../../lambdas/curryhouses/get";
 
 const getLambdaName = (lambdaKey: string): string | undefined =>

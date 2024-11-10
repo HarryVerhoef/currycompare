@@ -4,6 +4,7 @@ import { expressRequestToLambdaEvent } from "./utils/expressRequestToLambdaEvent
 import { type LambdaHandler, type LambdaEvent } from "./types/lambda";
 import { handler as getCurryhouses } from "./lambdas/curryhouses/get";
 import { handler as submitCurryhouseApplication } from "./lambdas/curryhouse/application/post";
+import { handler as getCurryhouse } from "./lambdas/curryhouse/{curryHouseId}/get";
 import buildLambdaContext from "./utils/buildLambdaContext";
 import { type Context } from "aws-lambda";
 
@@ -38,6 +39,7 @@ const handleRequestFactory =
     }
   };
 
+app.get("/api/curryhouse/:curryHouseId", handleRequestFactory(getCurryhouse));
 app.get("/api/curryhouses", handleRequestFactory(getCurryhouses));
 app.post(
   "/api/curryhouse/application",

@@ -15,6 +15,11 @@ import axios, { isAxiosError } from "axios";
 import { Environment, getEnvironment } from "../getEnvironment";
 import { curryCompareAPIError } from "../../codecs/CurryCompareAPIError";
 import { submitCurryhouseApplicationRequest } from "../../types/api/curryhouse/application/post";
+import {
+  getCurryhousePathParams,
+  getCurryhouseResponse,
+} from "../../types/api/curryhouse/{curryHouseId}/get";
+import { interpolatePath } from "../interpolatePath";
 
 const PROD_API_URL = "https://api.currycompare.com";
 const DEV_API_URL = "https://api.dev.currycompare.com";
@@ -46,32 +51,42 @@ const buildApiCall =
   <
     BodyCodec extends t.Type<any, any, any>,
     QueryCodec extends t.Type<any, any, any>,
+    PathParamsCodec extends t.Decoder<any, Record<string, string>>,
     ResponseCodec extends t.Type<any, any, any>,
   >({
     path,
     method,
     bodyCodec,
     queryCodec,
+    pathParamsCodec,
     responseCodec,
   }: {
     path: string;
     method: HTTPMethod;
     bodyCodec?: BodyCodec;
     queryCodec?: QueryCodec;
+    pathParamsCodec?: PathParamsCodec;
     responseCodec?: ResponseCodec;
   }): (({
     body,
     query,
+    pathParams,
     authorization,
   }: {
     body?: t.TypeOf<BodyCodec>;
     query?: t.TypeOf<QueryCodec>;
+    pathParams?: ReturnType<PathParamsCodec["decode"]> extends t.Validation<
+      infer U
+    >
+      ? U
+      : never;
     authorization?: string;
   }) => Promise<ApiResponse<t.TypeOf<ResponseCodec>>>) =>
-  async ({ body = {}, query = {}, authorization }) => {
+  async ({ body = {}, query = {}, pathParams = {}, authorization }) => {
     try {
       const decodedBody = bodyCodec?.decode(body);
       const decodedQuery = queryCodec?.decode(query);
+      const decodedPathParams = pathParamsCodec?.decode(pathParams);
 
       if (decodedBody !== undefined && isLeft(decodedBody)) {
         return apiFailure(
@@ -87,9 +102,16 @@ const buildApiCall =
         );
       }
 
+      if (decodedPathParams !== undefined && isLeft(decodedPathParams)) {
+        return apiFailure(
+          `Unable to parse request path params: ${combineDecoderErrors(decodedPathParams.left)}`,
+          400,
+        );
+      }
+
       const response = await axios({
         method,
-        url: `${getApiUrl()}${path}`,
+        url: `${getApiUrl()}${interpolatePath(path, decodedPathParams?.right)}`,
         data: JSON.stringify(decodedBody?.right),
         params: decodedQuery?.right,
         headers: {
@@ -97,8 +119,6 @@ const buildApiCall =
           Authorization: authorization,
         },
       });
-
-      console.error(response.data);
 
       const decodedResponse = responseCodec?.decode(response.data);
 
@@ -142,4 +162,11 @@ export const submitCurryhouseApplication = buildApiCall({
   method: HTTPMethod.POST,
   path: "/curryhouse/application",
   bodyCodec: submitCurryhouseApplicationRequest,
+});
+
+export const getCurryhouse = buildApiCall({
+  method: HTTPMethod.GET,
+  path: "/curryhouse/{curryHouseId}",
+  pathParamsCodec: getCurryhousePathParams,
+  responseCodec: getCurryhouseResponse,
 });

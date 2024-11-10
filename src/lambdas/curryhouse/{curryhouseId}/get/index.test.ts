@@ -9,7 +9,7 @@ jest.mock("../../../../utils/buildDatabaseURL", () => ({
 }));
 
 const mockPrismaClient = {
-  $queryRaw: jest.fn(),
+  $queryRaw: jest.fn().mockImplementation(() => []),
 };
 jest.mock("../../../../prisma/generated", () => ({
   ...jest.requireActual("../../../../prisma/generated"),
@@ -86,9 +86,11 @@ describe("GET /curryhouse/{curryhouseId}", () => {
       },
     });
 
-    mockPrismaClient.$queryRaw.mockResolvedValueOnce({
-      id: "123",
-    });
+    mockPrismaClient.$queryRaw.mockResolvedValueOnce([
+      {
+        id: "123",
+      },
+    ]);
 
     const { statusCode } = await handler(event, dummyContext, () => {});
     expect(statusCode).toBe(200);
