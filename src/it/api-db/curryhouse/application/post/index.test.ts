@@ -6,7 +6,7 @@ import {
 } from "../../../../../utils/api";
 import jwt from "jsonwebtoken";
 
-describe.skip("POST /curryhouse/application", () => {
+describe("POST /curryhouse/application", () => {
   const authorization = jwt.sign(
     {
       "cognito:groups": [UserRole.CONSUMER],

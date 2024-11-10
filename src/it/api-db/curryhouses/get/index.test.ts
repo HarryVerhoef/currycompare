@@ -1,7 +1,7 @@
 import { SearchRadius } from "../../../../codecs/SearchRadius";
 import { getCurryhouses } from "../../../../utils/api";
 
-describe.skip("GET /curryhouses", () => {
+describe("GET /curryhouses", () => {
   it("should return a 400 if the latitude is below the bottom limit", async () => {
     const response = await getCurryhouses({
       query: {
