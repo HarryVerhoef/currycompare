@@ -6,7 +6,7 @@ import { type CurryhouseLatLng } from "../../../../codecs/CurryhouseLatLng";
 
 export const getCurryhouseName = "GetCurryhouse";
 
-// force job
+// force job 2
 export const handler = buildLambdaHandler({
   pathCodec: getCurryhousePathParams,
   handler: async (event) => {
