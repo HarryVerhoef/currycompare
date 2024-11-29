@@ -32,10 +32,6 @@
     "ParameterValue": "curryhouse/:curryHouseId/get/index.zip"
   },
   {
-    "ParameterKey": "ApiArn",
-    "ParameterValue": "arn:aws:execute-api:eu-west-2:637423366782:2v4t7lvpyd/*/*/curryhouses"
-  },
-  {
     "ParameterKey": "DbMasterUsername",
     "ParameterValue": "currycompare_master_db_user_dev"
   },
@@ -58,5 +54,17 @@
   {
     "ParameterKey": "CurrycompareEnvironment",
     "ParameterValue": "dev"
+  },
+  {
+    "ParameterKey": "GetCurryhousesSourceArn",
+    "ParameterValue": "arn:aws:execute-api:eu-west-2:637423366782:2v4t7lvpyd/*/*/curryhouses"
+  },
+  {
+    "ParameterKey": "GetCurryhouseSourceArn",
+    "ParameterValue": "arn:aws:execute-api:eu-west-2:637423366782:2v4t7lvpyd/*/*/curryhouse/{curryHouseId}"
+  },
+  {
+    "ParameterKey": "SubmitCurryhouseApplicationSourceArn",
+    "ParameterValue": "arn:aws:execute-api:eu-west-2:637423366782:2v4t7lvpyd/*/*/curryhouse/{curryHouseId}"
   }
 ]
