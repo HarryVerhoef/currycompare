@@ -193,6 +193,15 @@ Resources:
         Fn::GetAtt: [GetCurryhousesFunction, Arn]
       Principal: apigateway.amazonaws.com
       SourceArn: !Ref ApiArn
+
+  GetCurryhousePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: 
+        Fn::GetAtt: [GetCurryhouseFunction, Arn]
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Ref ApiArn
   
   SubmitCurryhouseApplicationPermission:
     Type: AWS::Lambda::Permission
