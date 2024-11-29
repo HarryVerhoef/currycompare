@@ -28,8 +28,11 @@
     "ParameterValue": "arn:aws:lambda:eu-west-2:637423366782:function:SubmitCurryhouseApplication"
   },
   {
+    "ParameterKey": "GetCurryhouseLambdaARN",
+    "ParameterValue": "arn:aws:lambda:eu-west-2:637423366782:function:DevGetCurryhouse"
+  },
+  {
     "ParameterKey": "LogGroupName",
     "ParameterValue": "DevApiGatewayLogs"
   }
-  
 ]

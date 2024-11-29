@@ -14,7 +14,9 @@ Parameters:
     Type: String
   SubmitCurryhouseApplicationS3Key:
     Type: String
-  ApiArn:
+  GetCurryhouseFunctionName:
+    Type: String
+  GetCurryhouseS3Key:
     Type: String
   DbMasterUsername:
     Type: String
@@ -27,6 +29,12 @@ Parameters:
   SecurityGroupId:
     Type: String
   CurrycompareEnvironment:
+    Type: String
+  GetCurryhousesSourceArn:
+    Type: String
+  GetCurryhouseSourceArn:
+    Type: String
+  SubmitCurryhouseApplicationSourceArn:
     Type: String
 
 Resources:
@@ -44,6 +52,31 @@ Resources:
       Timeout: 60
       Role:
         Fn::GetAtt: [SubmitCurryhouseApplicationRole, Arn]
+      VpcConfig:
+        SubnetIds:
+          - !Ref SubnetId
+        SecurityGroupIds:
+          - !Ref SecurityGroupId
+
+  GetCurryhouseFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Ref GetCurryhouseFunctionName
+      Runtime: !Ref Runtime
+      PackageType: Zip
+      Handler: index.handler
+      Code:
+        S3Bucket: !Ref S3Bucket
+        S3Key: !Ref GetCurryhouseS3Key
+      Environment:
+        Variables:
+          CURRYCOMPARE_ENVIRONMENT: !Ref CurrycompareEnvironment
+          DB_MASTER_USERNAME: !Ref DbMasterUsername
+          DB_PASSWORD_SECRET_NAME: !Ref DbPasswordSecretName
+          DB_ENDPOINT: !Ref DbEndpoint
+      Timeout: 10
+      Role:
+        Fn::GetAtt: [GetCurryhouseRole, Arn]
       VpcConfig:
         SubnetIds:
           - !Ref SubnetId
@@ -129,6 +162,33 @@ Resources:
                   - 'ec2:DeleteNetworkInterface'
                 Resource: '*'
 
+  GetCurryhouseRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Policies:
+        - PolicyName: LambdaLoggingPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'logs:CreateLogGroup'
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                  - 'secretsmanager:GetSecretValue'
+                  - 'ec2:DescribeNetworkInterfaces'
+                  - 'ec2:CreateNetworkInterface'
+                  - 'ec2:DeleteNetworkInterface'
+                Resource: '*'
+
   GetCurryhousesPermission:
     Type: AWS::Lambda::Permission
     Properties:
@@ -136,7 +196,16 @@ Resources:
       FunctionName: 
         Fn::GetAtt: [GetCurryhousesFunction, Arn]
       Principal: apigateway.amazonaws.com
-      SourceArn: !Ref ApiArn
+      SourceArn: !Ref GetCurryhousesSourceArn
+
+  GetCurryhousePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: 
+        Fn::GetAtt: [GetCurryhouseFunction, Arn]
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Ref GetCurryhouseSourceArn
   
   SubmitCurryhouseApplicationPermission:
     Type: AWS::Lambda::Permission
@@ -145,6 +214,6 @@ Resources:
       FunctionName: 
         Fn::GetAtt: [SubmitCurryhouseApplicationFunction, Arn]
       Principal: apigateway.amazonaws.com
-      SourceArn: !Ref ApiArn
+      SourceArn: !Ref SubmitCurryhouseApplicationSourceArn
 
 # force job
